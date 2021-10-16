@@ -1,6 +1,6 @@
 {
-    "root": "dragonheavenserver.herokuapp.com",
-    "client": "dragonheaven.herokuapp.com",
+    "root": "randommons-server.herokuapp.com",
+    "client": "randommons.herokuapp.com",
     "dex": "dex.pokemonshowdown.com",
     "replays": "replay.pokemonshowdown.com",
     "users": "pokemonshowdown.com/users",
