@@ -33,7 +33,7 @@ Config.customcolors = {
 	'zarel': 'aeo'
 };
 /*** Begin automatically generated configuration ***/
-Config.version = "0.11.2 (a542395c/55fadf43)";
+Config.version = "0.11.2 (3d28fc59/55fadf43)";
 
 Config.routes = {
 	root: 'randommons-server.herokuapp.com',
