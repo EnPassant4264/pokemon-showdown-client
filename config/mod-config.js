@@ -50,6 +50,10 @@ const ModConfigData = {
 			customTiers: ['NSLC', 'NSNFE', 'NSOU'],
 			excludeStandardTiers: true,
 		},
+		yakmons: {
+			customTiers: ['Yak'],
+			excludeStandardTiers: true,
+		},
 	},
 };
 exports.ModConfigData = ModConfigData;
