@@ -46,6 +46,10 @@ const ModConfigData = {
 			customTiers: ['Rand Mossy Uber', 'Rand Mossy'],
 			excludeStandardTiers: true,
 		},
+		randommossy: {
+			customTiers: ['NSLC', 'NSNFE', 'NSOU'],
+			excludeStandardTiers: true,
+		},
 	},
 };
 exports.ModConfigData = ModConfigData;
