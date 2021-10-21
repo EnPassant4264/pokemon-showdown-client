@@ -46,7 +46,7 @@ const ModConfigData = {
 			customTiers: ['Rand Mossy Uber', 'Rand Mossy'],
 			excludeStandardTiers: true,
 		},
-		randommossy: {
+		pokemonns: {
 			customTiers: ['NSLC', 'NSNFE', 'NSOU'],
 			excludeStandardTiers: true,
 		},
