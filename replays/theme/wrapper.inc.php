@@ -24,12 +24,12 @@ function ThemeHeaderTemplate() {
 <?php } ?>
 
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8" />
-	<link rel="stylesheet" href="//randommons.herokuapp.com/style/font-awesome.css?0.031112711403112225" />
-	<link rel="stylesheet" href="//randommons-server.herokuapp.com/theme/panels.css?0.31786419514334674" />
-	<link rel="stylesheet" href="//randommons-server.herokuapp.com/theme/main.css?0.5372305955667547" />
-	<link rel="stylesheet" href="//randommons.herokuapp.com/style/battle.css?0.49586434949178915" />
-	<link rel="stylesheet" href="//randommons.herokuapp.com/style/replay.css?0.620842386781046" />
-	<link rel="stylesheet" href="//randommons.herokuapp.com/style/utilichart.css?0.00033961238159774254" />
+	<link rel="stylesheet" href="//randommons.herokuapp.com/style/font-awesome.css?0.02409131745168147" />
+	<link rel="stylesheet" href="//randommons-server.herokuapp.com/theme/panels.css?0.3981826419689807" />
+	<link rel="stylesheet" href="//randommons-server.herokuapp.com/theme/main.css?0.804184160243776" />
+	<link rel="stylesheet" href="//randommons.herokuapp.com/style/battle.css?0.712470426377745" />
+	<link rel="stylesheet" href="//randommons.herokuapp.com/style/replay.css?0.17305616660110146" />
+	<link rel="stylesheet" href="//randommons.herokuapp.com/style/utilichart.css?0.920750670889926" />
 
 	<!-- Workarounds for IE bugs to display trees correctly. -->
 	<!--[if lte IE 6]><style> li.tree { height: 1px; } </style><![endif]-->
@@ -53,11 +53,11 @@ function ThemeHeaderTemplate() {
 	<div class="pfx-topbar">
 		<div class="header">
 			<ul class="nav">
-				<li><a class="button nav-first<?php if ($panels->tab === 'home') echo ' cur'; ?>" href="//randommons-server.herokuapp.com/?0.689104101883744"><img src="//randommons-server.herokuapp.com/images/pokemonshowdownbeta.png?0.5257772462908852" alt="Pok&eacute;mon Showdown! (beta)" /> Home</a></li>
-				<li><a class="button<?php if ($panels->tab === 'pokedex') echo ' cur'; ?>" href="//dex.pokemonshowdown.com/?0.14018023995361695">Pok&eacute;dex</a></li>
-				<li><a class="button<?php if ($panels->tab === 'replay') echo ' cur'; ?>" href="/?0.4432621989444623">Replays</a></li>
-				<li><a class="button<?php if ($panels->tab === 'ladder') echo ' cur'; ?>" href="//randommons-server.herokuapp.com/ladder/?0.3435531879809506">Ladder</a></li>
-				<li><a class="button nav-last" href="//randommons-server.herokuapp.com/forums/?0.4433212689894528">Forum</a></li>
+				<li><a class="button nav-first<?php if ($panels->tab === 'home') echo ' cur'; ?>" href="//randommons-server.herokuapp.com/?0.8360147559984317"><img src="//randommons-server.herokuapp.com/images/pokemonshowdownbeta.png?0.8426208393768915" alt="Pok&eacute;mon Showdown! (beta)" /> Home</a></li>
+				<li><a class="button<?php if ($panels->tab === 'pokedex') echo ' cur'; ?>" href="//dex.pokemonshowdown.com/?0.08164955179031486">Pok&eacute;dex</a></li>
+				<li><a class="button<?php if ($panels->tab === 'replay') echo ' cur'; ?>" href="/?0.0380913962494116">Replays</a></li>
+				<li><a class="button<?php if ($panels->tab === 'ladder') echo ' cur'; ?>" href="//randommons-server.herokuapp.com/ladder/?0.6137277485029966">Ladder</a></li>
+				<li><a class="button nav-last" href="//randommons-server.herokuapp.com/forums/?0.6625613259398948">Forum</a></li>
 			</ul>
 			<ul class="nav nav-play">
 				<li><a class="button greenbutton nav-first nav-last" href="http://play.pokemonshowdown.com/">Play</a></li>
@@ -74,10 +74,10 @@ function ThemeHeaderTemplate() {
 
 function ThemeScriptsTemplate() {
 ?>
-	<script src="//randommons.herokuapp.com/js/lib/jquery-1.11.0.min.js?0.33403628461734836"></script>
-	<script src="//randommons.herokuapp.com/js/lib/lodash.core.js?0.5169386419745718"></script>
-	<script src="//randommons.herokuapp.com/js/lib/backbone.js?0.7052734370114822"></script>
-	<script src="//dex.pokemonshowdown.com/js/panels.js?0.06191816880003165"></script>
+	<script src="//randommons.herokuapp.com/js/lib/jquery-1.11.0.min.js?0.005711938237378922"></script>
+	<script src="//randommons.herokuapp.com/js/lib/lodash.core.js?0.552148002058048"></script>
+	<script src="//randommons.herokuapp.com/js/lib/backbone.js?0.5434366498105312"></script>
+	<script src="//dex.pokemonshowdown.com/js/panels.js?0.5857558938207772"></script>
 <?php
 }
 
@@ -86,21 +86,21 @@ function ThemeFooterTemplate() {
 ?>
 <?php $panels->scripts(); ?>
 
-	<script src="//randommons.herokuapp.com/js/lib/jquery-cookie.js?0.40297292009282604"></script>
-	<script src="//randommons.herokuapp.com/js/lib/html-sanitizer-minified.js?0.38680589755932493"></script>
-	<script src="//randommons.herokuapp.com/js/battle-sound.js?0.05416882501331832"></script>
-	<script src="//randommons.herokuapp.com/config/config.js?0.6753952215607406"></script>
-	<script src="//randommons.herokuapp.com/js/battledata.js?0.7403184309321424"></script>
-	<script src="//randommons.herokuapp.com/data/pokedex-mini.js?0.15269961508678365"></script>
-	<script src="//randommons.herokuapp.com/data/pokedex-mini-bw.js?0.7447201182210914"></script>
-	<script src="//randommons.herokuapp.com/data/graphics.js?0.08804912083820526"></script>
-	<script src="//randommons.herokuapp.com/data/pokedex.js?0.9695997611133711"></script>
-	<script src="//randommons.herokuapp.com/data/items.js?0.29731555405575416"></script>
-	<script src="//randommons.herokuapp.com/data/moves.js?0.9518175458095286"></script>
-	<script src="//randommons.herokuapp.com/data/abilities.js?0.38440798123769726"></script>
-	<script src="//randommons.herokuapp.com/data/teambuilder-tables.js?0.3611001734163346"></script>
-	<script src="//randommons.herokuapp.com/js/battle-tooltips.js?0.8558764332031568"></script>
-	<script src="//randommons.herokuapp.com/js/battle.js?0.03957230471600881"></script>
+	<script src="//randommons.herokuapp.com/js/lib/jquery-cookie.js?0.6573741094381877"></script>
+	<script src="//randommons.herokuapp.com/js/lib/html-sanitizer-minified.js?0.7001573510937051"></script>
+	<script src="//randommons.herokuapp.com/js/battle-sound.js?0.3177349912642842"></script>
+	<script src="//randommons.herokuapp.com/config/config.js?0.6077833743717516"></script>
+	<script src="//randommons.herokuapp.com/js/battledata.js?0.9021926132097169"></script>
+	<script src="//randommons.herokuapp.com/data/pokedex-mini.js?0.143578690302125"></script>
+	<script src="//randommons.herokuapp.com/data/pokedex-mini-bw.js?0.8614727401847073"></script>
+	<script src="//randommons.herokuapp.com/data/graphics.js?0.08216535172025807"></script>
+	<script src="//randommons.herokuapp.com/data/pokedex.js?0.8052488601044641"></script>
+	<script src="//randommons.herokuapp.com/data/items.js?0.4690882727632384"></script>
+	<script src="//randommons.herokuapp.com/data/moves.js?0.8912728215087704"></script>
+	<script src="//randommons.herokuapp.com/data/abilities.js?0.4457152998774354"></script>
+	<script src="//randommons.herokuapp.com/data/teambuilder-tables.js?0.08953398506111987"></script>
+	<script src="//randommons.herokuapp.com/js/battle-tooltips.js?0.628767462460041"></script>
+	<script src="//randommons.herokuapp.com/js/battle.js?0.8262492891374036"></script>
 	<script src="/js/replay.js?6887ea68"></script>
 
 </body></html>
