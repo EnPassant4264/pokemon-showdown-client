@@ -488,7 +488,8 @@ abilities:table.overrideDexInfo[_id2].abilities};
 for(var _id3 in table.overrideMoveInfo){
 moveDex[_id3]={
 type:table.overrideMoveInfo.type,
-category:table.overrideMoveInfo.category};
+category:table.overrideMoveInfo.category,
+basePower:table.overrideMoveInfo.basePower};
 
 }
 pokedex=Object.assign({},pokedex,BattlePokedex);
@@ -1638,12 +1639,14 @@ dragonrage:1140,sonicboom:1120,superfang:1350,endeavor:1399,sheercold:1501,
 fissure:1500,horndrill:1500,guillotine:1500};
 
 return results.sort(function(_ref20,_ref21){var rowType1=_ref20[0],id1=_ref20[1];var rowType2=_ref21[0],id2=_ref21[1];
-var modPow1=_this6.mod?BattleTeambuilderTable[_this6.mod].overrideBP[id1]:null;
-var modPow2=_this6.mod?BattleTeambuilderTable[_this6.mod].overrideBP[id2]:null;
 var move1=BattleMovedex[id1];
 var move2=BattleMovedex[id2];
-var pow1=modPow1||move1.basePower||powerTable[id1]||(move1.category==='Status'?-1:1400);
-var pow2=modPow2||move2.basePower||powerTable[id2]||(move2.category==='Status'?-1:1400);
+var pow1=move1.basePower;
+var pow2=move2.basePower;
+pow1=pow1||powerTable[id1]||(move1.category==='Status'?-1:1400);
+if(BattleTeambuilderTable[_this6.mod].overrideMoveInfo[id1])pow1=BattleTeambuilderTable[_this6.mod].overrideMoveInfo[id1].basePower;
+pow2=pow2||powerTable[id2]||(move2.category==='Status'?-1:1400);
+if(BattleTeambuilderTable[_this6.mod].overrideMoveInfo[id2])pow2=BattleTeambuilderTable[_this6.mod].overrideMoveInfo[id2].basePower;
 return pow2-pow1;
 });
 case'accuracy':

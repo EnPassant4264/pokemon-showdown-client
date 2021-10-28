@@ -489,6 +489,7 @@ class DexSearch {
 				moveDex[id] = {
 					type: table.overrideMoveInfo.type,
 					category: table.overrideMoveInfo.category,
+					basePower: table.overrideMoveInfo.basePower,
 				};
 			}
 			pokedex = {...pokedex, ...BattlePokedex};
@@ -1638,12 +1639,14 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 				fissure: 1500, horndrill: 1500, guillotine: 1500,
 			};
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				const modPow1 = this.mod ? BattleTeambuilderTable[this.mod].overrideBP[id1] : null;
-				const modPow2 = this.mod ? BattleTeambuilderTable[this.mod].overrideBP[id2] : null;
 				let move1 = BattleMovedex[id1];
 				let move2 = BattleMovedex[id2];
-				let pow1 = modPow1 || move1.basePower || powerTable[id1] || (move1.category === 'Status' ? -1 : 1400);
-				let pow2 = modPow2 || move2.basePower || powerTable[id2] || (move2.category === 'Status' ? -1 : 1400);
+				let pow1 = move1.basePower;
+				let pow2 = move2.basePower;
+				pow1 = pow1 || powerTable[id1] || (move1.category === 'Status' ? -1 : 1400);
+				if (BattleTeambuilderTable[this.mod].overrideMoveInfo[id1]) pow1 = BattleTeambuilderTable[this.mod].overrideMoveInfo[id1].basePower;
+				pow2 = pow2 || powerTable[id2] || (move2.category === 'Status' ? -1 : 1400);
+				if (BattleTeambuilderTable[this.mod].overrideMoveInfo[id2]) pow2 = BattleTeambuilderTable[this.mod].overrideMoveInfo[id2].basePower;
 				return pow2 - pow1;
 			});
 		case 'accuracy':
