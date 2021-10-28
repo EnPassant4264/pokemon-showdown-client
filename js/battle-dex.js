@@ -465,6 +465,7 @@ return false;
 };_proto2.
 
 getSpriteMod=function getSpriteMod(mod,id,folder){var overrideStandard=arguments.length>3&&arguments[3]!==undefined?arguments[3]:false;
+if(window.ModSprites){
 if(!window.ModSprites[id])return'';
 if((!mod||!window.ModSprites[id][mod])&&!overrideStandard){
 for(var modName in window.ModSprites[id]){
@@ -473,6 +474,7 @@ if(window.ModSprites[id][modName].includes(folder))return modName;
 }
 if(mod&&window.ModSprites[id][mod]&&window.ModSprites[id][mod].includes(folder))return mod;
 return'';
+}
 };_proto2.
 
 loadSpriteData=function loadSpriteData(gen){
