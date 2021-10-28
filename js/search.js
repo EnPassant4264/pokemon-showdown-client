@@ -338,7 +338,8 @@
 
 		// abilities
 		if (gen >= 3) {
-			var abilities = this.engine.dex.getSpecies(id).abilities;
+			var abilities = Dex.getSpecies(id).abilities;
+			if (this.engine) abilities = this.engine.dex.getSpecies(id).abilities;
 			if (abilities['1']) {
 				buf += '<span class="col twoabilitycol">' + abilities['0'] + '<br />' +
 					abilities['1'] + '</span>';
