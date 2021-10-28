@@ -82,7 +82,7 @@ class DexSearch {
 
 	constructor(searchType: SearchType | '' = '', formatid = '' as ID, species = '' as ID) {
 		this.setType(searchType, formatid, species);
-		if (window.room.curTeam.mod) this.dex = Dex.mod(window.room.curTeam.mod);
+		if (window.room && window.room.curTeam && window.room.curTeam.mod) this.dex = Dex.mod(window.room.curTeam.mod);
 	}
 
 	getTypedSearch(searchType: SearchType | '', format = '' as ID, speciesOrSet: ID | PokemonSet = '' as ID) {
@@ -398,7 +398,8 @@ class DexSearch {
 			}
 
 			// determine if the element comes from the current mod
-			const table = BattleTeambuilderTable[window.room.curTeam.mod];
+			const table = BattleTeambuilderTable['gen8'];
+			if (window.room && window.room.curTeam) table = BattleTeambuilderTable[window.room.curTeam.mod];
 			if (
 				typeIndex === 1 && (!BattlePokedex[id] || BattlePokedex[id].exists === false) &&
 				(!table || !table.overrideDexInfo || id in table.overrideDexInfo === false)
@@ -474,7 +475,7 @@ class DexSearch {
 		// Change object to look in if using a mod
 		let pokedex = BattlePokedex;
 		let moveDex = BattleMovedex;
-		if (window.room.curTeam.mod) {
+		if (window.room && window.room.curTeam && window.room.curTeam.mod) {
 			pokedex = {};
 			moveDex = {};
 			const table = BattleTeambuilderTable[window.room.curTeam.mod];
