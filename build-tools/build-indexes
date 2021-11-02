@@ -91,97 +91,99 @@ function requireNoCache(pathSpec) {
 	const usedIDs = [];
 	function generateAlias(id, name, type) {
 		usedIDs.push(id);
-		let i = name.lastIndexOf(' ');
-		if (i < 0) i = name.lastIndexOf('-');
-		if (name.endsWith('-Mega-X') || name.endsWith('-Mega-Y')) {
-			index.push('mega' + toID(name.slice(0, -7) + name.slice(-1)) + ' ' + type + ' ' + id + ' 0');
-			index.push('m' + toID(name.slice(0, -7) + name.slice(-1)) + ' ' + type + ' ' + id + ' 0');
-			index.push('mega' + toID(name.slice(-1)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, -7)).length);
-			return;
-		}
-		if (name.endsWith('-Mega')) {
-			index.push('mega' + toID(name.slice(0, -5)) + ' ' + type + ' ' + id + ' 0');
-			index.push('m' + toID(name.slice(0, -5)) + ' ' + type + ' ' + id + ' 0');
-			return;
-		}
-		if (name.endsWith('-Alola')) {
-			index.push('alolan' + toID(name.slice(0, -6)) + ' ' + type + ' ' + id + ' 0');
-			return;
-		}
-		let oldI = i;
-		if (name === 'Bronzong') i = 4;
-		if (name === 'Charizard') i = 5;
-		if (name === 'Garchomp') i = 3;
-		if (name === 'Hariyama') i = 4;
+		if (name) {
+			let i = name.lastIndexOf(' ');
+			if (i < 0) i = name.lastIndexOf('-');
+			if (name.endsWith('-Mega-X') || name.endsWith('-Mega-Y')) {
+				index.push('mega' + toID(name.slice(0, -7) + name.slice(-1)) + ' ' + type + ' ' + id + ' 0');
+				index.push('m' + toID(name.slice(0, -7) + name.slice(-1)) + ' ' + type + ' ' + id + ' 0');
+				index.push('mega' + toID(name.slice(-1)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, -7)).length);
+				return;
+			}
+			if (name.endsWith('-Mega')) {
+				index.push('mega' + toID(name.slice(0, -5)) + ' ' + type + ' ' + id + ' 0');
+				index.push('m' + toID(name.slice(0, -5)) + ' ' + type + ' ' + id + ' 0');
+				return;
+			}
+			if (name.endsWith('-Alola')) {
+				index.push('alolan' + toID(name.slice(0, -6)) + ' ' + type + ' ' + id + ' 0');
+				return;
+			}
+			let oldI = i;
+			if (name === 'Bronzong') i = 4;
+			if (name === 'Charizard') i = 5;
+			if (name === 'Garchomp') i = 3;
+			if (name === 'Hariyama') i = 4;
 
-		if (name === 'Acupressure') i = 3;
-		if (name === 'Aromatherapy') i = 5;
-		if (name === 'Boomburst') i = 4;
-		if (name === 'Crabhammer') i = 4;
-		if (name === 'Discharge') i = 3;
-		if (name === 'Earthquake') i = 5;
-		if (name === 'Extrasensory') i = 5;
-		if (name === 'Flamethrower') i = 5;
-		if (name === 'Headbutt') i = 4;
-		if (name === 'Moonblast') i = 4;
-		if (name === 'Moonlight') i = 4;
-		if (name === 'Overheat') i = 4;
-		if (name === 'Outrage') i = 3;
-		if (name === 'Octazooka') i = 4;
-		if (name === 'Payback') i = 3;
-		if (name === 'Psyshock') i = 3;
-		if (name === 'Psywave') i = 3;
-		if (name === 'Rototiller') i = 4;
-		if (name === 'Rollout') i = 4;
-		if (name === 'Safeguard') i = 4;
-		if (name === 'Sandstorm') i = 4;
-		if (name === 'Smokescreen') i = 5;
-		if (name === 'Stockpile') i = 5;
-		if (name === 'Steamroller') i = 5;
-		if (name === 'Superpower') i = 5;
-		if (name === 'Supersonic') i = 5;
-		if (name === 'Synchronoise') i = 7;
-		if (name === 'Tailwind') i = 4;
-		if (name === 'Telekinesis') i = 4;
-		if (name === 'Teleport') i = 4;
-		if (name === 'Thunderbolt') i = 7;
-		if (name === 'Twineedle') i = 3;
-		if (name === 'Uproar') i = 2;
-		if (name === 'Venoshock') i = 4;
-		if (name === 'Whirlpool') i = 5;
-		if (name === 'Whirlwind') i = 5;
-		let acronym;
-		if (oldI < 0 && i > 0) {
-			acronym = toID(name.charAt(0) + name.slice(i));
-		}
-		if (i < 0) return;
-		index.push('' + toID(name.slice(i)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, i)).length);
-		if (name.startsWith('Hidden Power ')) {
-			acronym = 'hp' + toID(name.substr(13));
-			index.push('' + acronym + ' ' + type + ' ' + id + ' 0');
-		} else if (name === 'Hidden Power') {
-			index.push('hp ' + type + ' ' + id + ' 0');
-		} else if (name.includes(' ')) {
-			acronym = toID(name.split(' ').map((x, i) => i !== 0 ? x : x.charAt(0)).join(''));
-		} else if (name.includes('-') && name.charAt(1) !== '-') {
-			acronym = toID(name.split('-').map((x, i) => i !== 0 ? x : x.charAt(0)).join(''));
-		}
-		if (acronym) {
-			index.push('' + acronym + ' ' + type + ' ' + id + ' 0');
-		}
-		if (name === 'High Jump Kick') {
-			index.push('hjkick ' + type + ' ' + id + ' 0');
-		} else if (name === 'Wake-Up Slap') {
-			index.push('wuslap ' + type + ' ' + id + ' 0');
-			index.push('wupslap ' + type + ' ' + id + ' 0');
-		} else if (name === 'Zen Headbutt') {
-			index.push('zhbutt ' + type + ' ' + id + ' 0');
-		}
-		let i2 = name.lastIndexOf(' ', i - 1);
-		if (i2 < 0) i2 = name.lastIndexOf('-', i - 1);
-		if (name === 'Zen Headbutt') i2 = 8;
-		if (i2 >= 0) {
-			index.push('' + toID(name.slice(i2)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, i2)).length);
+			if (name === 'Acupressure') i = 3;
+			if (name === 'Aromatherapy') i = 5;
+			if (name === 'Boomburst') i = 4;
+			if (name === 'Crabhammer') i = 4;
+			if (name === 'Discharge') i = 3;
+			if (name === 'Earthquake') i = 5;
+			if (name === 'Extrasensory') i = 5;
+			if (name === 'Flamethrower') i = 5;
+			if (name === 'Headbutt') i = 4;
+			if (name === 'Moonblast') i = 4;
+			if (name === 'Moonlight') i = 4;
+			if (name === 'Overheat') i = 4;
+			if (name === 'Outrage') i = 3;
+			if (name === 'Octazooka') i = 4;
+			if (name === 'Payback') i = 3;
+			if (name === 'Psyshock') i = 3;
+			if (name === 'Psywave') i = 3;
+			if (name === 'Rototiller') i = 4;
+			if (name === 'Rollout') i = 4;
+			if (name === 'Safeguard') i = 4;
+			if (name === 'Sandstorm') i = 4;
+			if (name === 'Smokescreen') i = 5;
+			if (name === 'Stockpile') i = 5;
+			if (name === 'Steamroller') i = 5;
+			if (name === 'Superpower') i = 5;
+			if (name === 'Supersonic') i = 5;
+			if (name === 'Synchronoise') i = 7;
+			if (name === 'Tailwind') i = 4;
+			if (name === 'Telekinesis') i = 4;
+			if (name === 'Teleport') i = 4;
+			if (name === 'Thunderbolt') i = 7;
+			if (name === 'Twineedle') i = 3;
+			if (name === 'Uproar') i = 2;
+			if (name === 'Venoshock') i = 4;
+			if (name === 'Whirlpool') i = 5;
+			if (name === 'Whirlwind') i = 5;
+			let acronym;
+			if (oldI < 0 && i > 0) {
+				acronym = toID(name.charAt(0) + name.slice(i));
+			}
+			if (i < 0) return;
+			index.push('' + toID(name.slice(i)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, i)).length);
+			if (name.startsWith('Hidden Power ')) {
+				acronym = 'hp' + toID(name.substr(13));
+				index.push('' + acronym + ' ' + type + ' ' + id + ' 0');
+			} else if (name === 'Hidden Power') {
+				index.push('hp ' + type + ' ' + id + ' 0');
+			} else if (name.includes(' ')) {
+				acronym = toID(name.split(' ').map((x, i) => i !== 0 ? x : x.charAt(0)).join(''));
+			} else if (name.includes('-') && name.charAt(1) !== '-') {
+				acronym = toID(name.split('-').map((x, i) => i !== 0 ? x : x.charAt(0)).join(''));
+			}
+			if (acronym) {
+				index.push('' + acronym + ' ' + type + ' ' + id + ' 0');
+			}
+			if (name === 'High Jump Kick') {
+				index.push('hjkick ' + type + ' ' + id + ' 0');
+			} else if (name === 'Wake-Up Slap') {
+				index.push('wuslap ' + type + ' ' + id + ' 0');
+				index.push('wupslap ' + type + ' ' + id + ' 0');
+			} else if (name === 'Zen Headbutt') {
+				index.push('zhbutt ' + type + ' ' + id + ' 0');
+			}
+			let i2 = name.lastIndexOf(' ', i - 1);
+			if (i2 < 0) i2 = name.lastIndexOf('-', i - 1);
+			if (name === 'Zen Headbutt') i2 = 8;
+			if (i2 >= 0) {
+				index.push('' + toID(name.slice(i2)) + ' ' + type + ' ' + id + ' ' + toID(name.slice(0, i2)).length);
+			}
 		}
 	}
 
@@ -281,7 +283,7 @@ function requireNoCache(pathSpec) {
 	}
 
 	for (const type in Dex.data.TypeChart) {
-		BattleSearchCountIndex[type + ' pokemon'] = Object.keys(Dex.data.Pokedex).filter(id => (Dex.data.Pokedex[id].types.indexOf(type) >= 0)).length;
+		BattleSearchCountIndex[type + ' pokemon'] = Object.keys(Dex.data.Pokedex).filter(id => Dex.data.Pokedex[id].types?.includes(type)).length;
 	}
 
 	let buf = '// DO NOT EDIT - automatically built with build-tools/build-indexes\n\n';
@@ -1275,6 +1277,15 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 console.log("DONE");
 
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}
+
 /*********************************************************
  * Build pokedex.js
  *********************************************************/
@@ -1283,6 +1294,23 @@ process.stdout.write("Building `data/pokedex.js`... ");
 
 {
 	const Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
+	var modPrint = '';
+	fs.readdirSync("data/pokemon-showdown/.data-dist/mods/").forEach((folder) => {
+		fs.readdirSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/').forEach((file) => {
+			if (file == 'pokedex.js') {
+				fs.readFileSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/' + file, 'utf-8').split('\n').forEach(function(line){
+					if (!line.includes('\t\t') && line.includes(' : {')) line = line.replace(' : {', ': {');
+					if (!line.includes('\t\t') && line.includes(': {')) modPrint += line.replace(': {', folder + ': {\n');
+					else if (line.includes('name: ')) modPrint += line.replace('",', '-' + toTitleCase(folder) + '",\n');
+					else modPrint += line + '\n';
+				})
+				fs.writeFileSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/pokedex-' + folder + '.js', modPrint);
+				modPrint = '';
+				var mod = requireNoCache("../data/pokemon-showdown/.data-dist/mods/" + folder + '/pokedex-' + folder + '.js').Pokedex;
+				Object.assign(Pokedex, mod);
+			}
+		})
+	})
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
@@ -1372,6 +1400,23 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	const FormatsData = requireNoCache('../data/pokemon-showdown/.data-dist/formats-data.js').FormatsData;
+	var modPrint = '';
+	fs.readdirSync("data/pokemon-showdown/.data-dist/mods/").forEach((folder) => {
+		fs.readdirSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/').forEach((file) => {
+			if (file == 'formats-data.js') {
+				fs.readFileSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/' + file, 'utf-8').split('\n').forEach(function(line){
+					if (!line.includes('\t\t') && line.includes(' : {')) line = line.replace(' : {', ': {');
+					if (!line.includes('\t\t') && line.includes(': {')) modPrint += line.replace(': {', folder + ': {\n');
+					else if (line.includes('tier: ')) modPrint += line.replace(': "', ': "' + toTitleCase(folder) + ' ') + '\n';
+					else modPrint += line + '\n';
+				})
+				fs.writeFileSync("data/pokemon-showdown/.data-dist/mods/" + folder + '/formats-data-' + folder + '.js', modPrint);
+				modPrint = '';
+				var mod = requireNoCache("../data/pokemon-showdown/.data-dist/mods/" + folder + '/formats-data-' + folder + '.js').FormatsData;
+				Object.assign(Pokedex, mod);
+			}
+		})
+	})
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
 }

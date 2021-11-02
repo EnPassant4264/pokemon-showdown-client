@@ -1,0 +1,780 @@
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const FormatsData = {
+	bulbasaurgen1: {
+		randomBattleMoves: ["sleeppowder", "bodyslam"],
+		essentialMove: "razorleaf",
+		exclusiveMoves: ["megadrain", "swordsdance", "swordsdance"],
+		tier: "Gen1 LC",
+	},
+	ivysaurgen1: {
+		randomBattleMoves: ["sleeppowder", "swordsdance", "bodyslam"],
+		essentialMove: "razorleaf",
+		tier: "Gen1 NFE",
+	},
+	venusaurgen1: {
+		randomBattleMoves: ["sleeppowder", "swordsdance", "bodyslam", "hyperbeam"],
+		essentialMove: "razorleaf",
+		tier: "Gen1 UU",
+	},
+	charmandergen1: {
+		randomBattleMoves: ["bodyslam", "slash"],
+		essentialMove: "fireblast",
+		exclusiveMoves: ["counter", "seismictoss"],
+		comboMoves: ["swordsdance", "bodyslam", "submission", "fireblast"],
+		tier: "Gen1 LC",
+	},
+	charmeleongen1: {
+		randomBattleMoves: ["bodyslam", "slash"],
+		essentialMove: "fireblast",
+		exclusiveMoves: ["counter", "swordsdance"],
+		comboMoves: ["swordsdance", "bodyslam", "submission", "fireblast"],
+		tier: "Gen1 NFE",
+	},
+	charizardgen1: {
+		randomBattleMoves: ["earthquake", "bodyslam", "slash"],
+		essentialMove: "fireblast",
+		comboMoves: ["swordsdance", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	squirtlegen1: {
+		randomBattleMoves: ["blizzard", "seismictoss", "surf", "hydropump"],
+		exclusiveMoves: ["counter", "bodyslam"],
+		tier: "Gen1 LC",
+	},
+	wartortlegen1: {
+		randomBattleMoves: ["surf", "blizzard", "bodyslam", "hydropump"],
+		exclusiveMoves: ["counter", "rest", "seismictoss"],
+		tier: "Gen1 NFE",
+	},
+	blastoisegen1: {
+		randomBattleMoves: ["surf", "blizzard", "bodyslam", "hydropump"],
+		exclusiveMoves: ["earthquake", "rest"],
+		tier: "Gen1 UU",
+	},
+	caterpiegen1: {
+		randomBattleMoves: ["stringshot", "tackle"],
+		tier: "Gen1 LC",
+	},
+	metapodgen1: {
+		randomBattleMoves: ["stringshot", "tackle", "harden"],
+		tier: "Gen1 NFE",
+	},
+	butterfreegen1: {
+		randomBattleMoves: ["psychic", "sleeppowder", "stunspore"],
+		exclusiveMoves: ["megadrain", "psywave"],
+		tier: "Gen1 UU",
+	},
+	weedlegen1: {
+		randomBattleMoves: ["poisonsting", "stringshot"],
+		tier: "Gen1 LC",
+	},
+	kakunagen1: {
+		randomBattleMoves: ["poisonsting", "stringshot", "harden"],
+		tier: "Gen1 NFE",
+	},
+	beedrillgen1: {
+		randomBattleMoves: ["twineedle", "megadrain", "swordsdance"],
+		exclusiveMoves: ["doubleedge", "doubleedge", "hyperbeam"],
+		comboMoves: ["twineedle", "hyperbeam", "swordsdance", "agility"],
+		tier: "Gen1 UU",
+	},
+	pidgeygen1: {
+		randomBattleMoves: ["agility", "skyattack", "doubleedge"],
+		exclusiveMoves: ["reflect", "sandattack", "mirrormove", "mimic", "toxic", "substitute"],
+		tier: "Gen1 LC",
+	},
+	pidgeottogen1: {
+		randomBattleMoves: ["agility", "skyattack", "doubleedge"],
+		exclusiveMoves: ["reflect", "sandattack", "mirrormove", "mimic", "toxic", "substitute"],
+		tier: "Gen1 NFE",
+	},
+	pidgeotgen1: {
+		randomBattleMoves: ["agility", "hyperbeam", "doubleedge"],
+		exclusiveMoves: ["reflect", "sandattack", "mirrormove", "mimic", "toxic", "skyattack", "skyattack", "substitute"],
+		tier: "Gen1 UU",
+	},
+	rattatagen1: {
+		randomBattleMoves: ["bodyslam", "blizzard", "thunderbolt"],
+		essentialMove: "superfang",
+		tier: "Gen1 LC",
+	},
+	raticategen1: {
+		randomBattleMoves: ["bodyslam", "hyperbeam", "blizzard"],
+		essentialMove: "superfang",
+		tier: "Gen1 UU",
+	},
+	spearowgen1: {
+		randomBattleMoves: ["drillpeck", "doubleedge", "agility"],
+		exclusiveMoves: ["leer", "toxic", "mirrormove", "mimic", "substitute"],
+		tier: "Gen1 LC",
+	},
+	fearowgen1: {
+		randomBattleMoves: ["drillpeck", "doubleedge", "hyperbeam", "agility"],
+		tier: "Gen1 UU",
+	},
+	ekansgen1: {
+		randomBattleMoves: ["glare", "earthquake", "bodyslam", "rockslide"],
+		tier: "Gen1 LC",
+	},
+	arbokgen1: {
+		randomBattleMoves: ["earthquake", "glare", "hyperbeam"],
+		exclusiveMoves: ["bodyslam", "rockslide"],
+		tier: "Gen1 UU",
+	},
+	pikachugen1: {
+		randomBattleMoves: ["thunderwave", "surf"],
+		essentialMove: "thunderbolt",
+		exclusiveMoves: ["bodyslam", "thunder", "agility", "seismictoss"],
+		tier: "Gen1 LC",
+	},
+	raichugen1: {
+		randomBattleMoves: ["thunderwave", "surf"],
+		essentialMove: "thunderbolt",
+		exclusiveMoves: ["bodyslam", "thunder", "agility", "seismictoss", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	sandshrewgen1: {
+		randomBattleMoves: ["swordsdance", "bodyslam", "rockslide"],
+		essentialMove: "earthquake",
+		tier: "Gen1 LC",
+	},
+	sandslashgen1: {
+		randomBattleMoves: ["swordsdance", "bodyslam", "rockslide"],
+		essentialMove: "earthquake",
+		tier: "Gen1 UU",
+	},
+	nidoranfgen1: {
+		randomBattleMoves: ["bodyslam", "blizzard", "thunderbolt"],
+		exclusiveMoves: ["doubleedge", "doublekick"],
+		tier: "Gen1 LC",
+	},
+	nidorinagen1: {
+		randomBattleMoves: ["bodyslam", "blizzard", "thunderbolt"],
+		exclusiveMoves: ["bubblebeam", "doublekick", "doubleedge"],
+		tier: "Gen1 NFE",
+	},
+	nidoqueengen1: {
+		randomBattleMoves: ["blizzard", "thunderbolt", "bodyslam"],
+		essentialMove: "earthquake",
+		tier: "Gen1 UU",
+	},
+	nidoranmgen1: {
+		randomBattleMoves: ["bodyslam", "blizzard", "thunderbolt"],
+		exclusiveMoves: ["doubleedge", "doublekick"],
+		tier: "Gen1 LC",
+	},
+	nidorinogen1: {
+		randomBattleMoves: ["bodyslam", "blizzard", "thunderbolt"],
+		exclusiveMoves: ["bubblebeam", "doublekick", "doubleedge"],
+		tier: "Gen1 NFE",
+	},
+	nidokinggen1: {
+		randomBattleMoves: ["blizzard", "bodyslam"],
+		essentialMove: "earthquake",
+		exclusiveMoves: ["thunder", "thunderbolt", "rockslide"],
+		tier: "Gen1 UU",
+	},
+	clefairygen1: {
+		randomBattleMoves: ["bodyslam", "thunderwave", "thunderbolt"],
+		essentialMove: "blizzard",
+		exclusiveMoves: ["counter", "sing", "sing", "psychic", "seismictoss"],
+		tier: "Gen1 NFE",
+	},
+	clefablegen1: {
+		randomBattleMoves: ["bodyslam", "thunderwave", "thunderbolt"],
+		essentialMove: "blizzard",
+		exclusiveMoves: ["counter", "sing", "sing", "psychic", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	vulpixgen1: {
+		randomBattleMoves: ["bodyslam", "confuseray", "fireblast"],
+		exclusiveMoves: ["flamethrower", "reflect", "substitute"],
+		tier: "Gen1 LC",
+	},
+	ninetalesgen1: {
+		randomBattleMoves: ["bodyslam", "confuseray", "fireblast"],
+		exclusiveMoves: ["flamethrower", "reflect", "hyperbeam", "substitute"],
+		tier: "Gen1 UU",
+	},
+	jigglypuffgen1: {
+		randomBattleMoves: ["thunderwave", "bodyslam", "seismictoss", "blizzard"],
+		exclusiveMoves: ["counter", "sing"],
+		tier: "Gen1 LC",
+	},
+	wigglytuffgen1: {
+		randomBattleMoves: ["thunderwave", "bodyslam", "blizzard"],
+		exclusiveMoves: ["counter", "sing", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	zubatgen1: {
+		randomBattleMoves: ["toxic", "confuseray", "doubleedge", "megadrain"],
+		tier: "Gen1 LC",
+	},
+	golbatgen1: {
+		randomBattleMoves: ["confuseray", "doubleedge", "hyperbeam", "megadrain"],
+		tier: "Gen1 UU",
+	},
+	oddishgen1: {
+		randomBattleMoves: ["sleeppowder", "doubleedge"],
+		essentialMove: "megadrain",
+		exclusiveMoves: ["swordsdance", "stunspore", "stunspore"],
+		tier: "Gen1 LC",
+	},
+	gloomgen1: {
+		randomBattleMoves: ["sleeppowder", "doubleedge"],
+		essentialMove: "megadrain",
+		exclusiveMoves: ["swordsdance", "stunspore", "stunspore"],
+		tier: "Gen1 NFE",
+	},
+	vileplumegen1: {
+		randomBattleMoves: ["sleeppowder", "bodyslam", "stunspore", "swordsdance"],
+		essentialMove: "megadrain",
+		tier: "Gen1 UU",
+	},
+	parasgen1: {
+		randomBattleMoves: ["bodyslam", "megadrain"],
+		essentialMove: "spore",
+		exclusiveMoves: ["stunspore", "stunspore", "swordsdance", "growth", "slash"],
+		tier: "Gen1 LC",
+	},
+	parasectgen1: {
+		randomBattleMoves: ["bodyslam", "megadrain"],
+		essentialMove: "spore",
+		exclusiveMoves: ["stunspore", "stunspore", "swordsdance", "growth", "slash", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	venonatgen1: {
+		randomBattleMoves: ["psychic", "sleeppowder", "stunspore"],
+		exclusiveMoves: ["megadrain", "psywave", "doubleedge"],
+		tier: "Gen1 LC",
+	},
+	venomothgen1: {
+		randomBattleMoves: ["psychic", "sleeppowder", "stunspore"],
+		exclusiveMoves: ["megadrain", "megadrain", "doubleedge"],
+		tier: "Gen1 UU",
+	},
+	diglettgen1: {
+		randomBattleMoves: ["slash", "rockslide", "bodyslam"],
+		essentialMove: "earthquake",
+		tier: "Gen1 LC",
+	},
+	dugtriogen1: {
+		randomBattleMoves: ["slash", "rockslide", "bodyslam"],
+		essentialMove: "earthquake",
+		tier: "Gen1 UU",
+	},
+	meowthgen1: {
+		randomBattleMoves: ["bubblebeam", "bodyslam"],
+		essentialMove: "slash",
+		exclusiveMoves: ["thunder", "thunderbolt"],
+		tier: "Gen1 LC",
+	},
+	persiangen1: {
+		randomBattleMoves: ["bubblebeam", "bodyslam"],
+		essentialMove: "slash",
+		exclusiveMoves: ["thunderbolt", "thunder", "hyperbeam", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	psyduckgen1: {
+		randomBattleMoves: ["blizzard", "amnesia"],
+		essentialMove: "surf",
+		exclusiveMoves: ["bodyslam", "seismictoss", "rest", "hydropump"],
+		tier: "Gen1 LC",
+	},
+	golduckgen1: {
+		randomBattleMoves: ["blizzard", "amnesia"],
+		essentialMove: "surf",
+		exclusiveMoves: ["bodyslam", "seismictoss", "rest", "hydropump"],
+		tier: "Gen1 UU",
+	},
+	mankeygen1: {
+		randomBattleMoves: ["submission", "rockslide", "bodyslam"],
+		exclusiveMoves: ["counter", "megakick"],
+		tier: "Gen1 LC",
+	},
+	primeapegen1: {
+		randomBattleMoves: ["submission", "rockslide", "bodyslam"],
+		exclusiveMoves: ["counter", "hyperbeam", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	growlithegen1: {
+		randomBattleMoves: ["fireblast", "bodyslam", "flamethrower", "reflect"],
+		tier: "Gen1 LC",
+	},
+	arcaninegen1: {
+		randomBattleMoves: ["fireblast", "bodyslam", "hyperbeam"],
+		exclusiveMoves: ["flamethrower", "reflect"],
+		tier: "Gen1 UU",
+	},
+	poliwaggen1: {
+		randomBattleMoves: ["blizzard", "surf"],
+		essentialMove: "amnesia",
+		exclusiveMoves: ["psychic", "hypnosis", "hypnosis"],
+		tier: "Gen1 LC",
+	},
+	poliwhirlgen1: {
+		randomBattleMoves: ["blizzard", "surf"],
+		essentialMove: "amnesia",
+		exclusiveMoves: ["psychic", "hypnosis", "hypnosis", "counter"],
+		tier: "Gen1 NFE",
+	},
+	poliwrathgen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "submission", "blizzard"],
+		essentialMove: "surf",
+		exclusiveMoves: ["psychic", "hypnosis", "hypnosis"],
+		comboMoves: ["amnesia", "blizzard"],
+		tier: "Gen1 UU",
+	},
+	abragen1: {
+		randomBattleMoves: ["psychic", "thunderwave", "seismictoss"],
+		exclusiveMoves: ["reflect", "counter"],
+		tier: "Gen1 LC",
+	},
+	kadabragen1: {
+		randomBattleMoves: ["psychic", "thunderwave", "recover"],
+		exclusiveMoves: ["reflect", "reflect", "counter", "seismictoss", "seismictoss"],
+		tier: "Gen1 UU",
+	},
+	alakazamgen1: {
+		randomBattleMoves: ["psychic", "thunderwave", "recover"],
+		exclusiveMoves: ["reflect", "reflect", "counter", "seismictoss", "seismictoss"],
+		tier: "Gen1 OU",
+	},
+	machopgen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "submission"],
+		exclusiveMoves: ["counter", "rockslide", "rockslide"],
+		tier: "Gen1 LC",
+	},
+	machokegen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "submission"],
+		exclusiveMoves: ["counter", "rockslide", "rockslide"],
+		tier: "Gen1 NFE",
+	},
+	machampgen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "submission"],
+		exclusiveMoves: ["counter", "rockslide", "rockslide", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	bellsproutgen1: {
+		randomBattleMoves: ["sleeppowder", "swordsdance", "doubleedge", "stunspore"],
+		essentialMove: "razorleaf",
+		tier: "Gen1 LC",
+	},
+	weepinbellgen1: {
+		randomBattleMoves: ["sleeppowder", "swordsdance", "doubleedge", "stunspore"],
+		essentialMove: "razorleaf",
+		tier: "Gen1 NFE",
+	},
+	victreebelgen1: {
+		randomBattleMoves: ["sleeppowder", "bodyslam", "stunspore"],
+		essentialMove: "razorleaf",
+		comboMoves: ["swordsdance", "hyperbeam"],
+		tier: "Gen1 OU",
+	},
+	tentacoolgen1: {
+		randomBattleMoves: ["barrier", "hydropump", "surf"],
+		essentialMove: "blizzard",
+		exclusiveMoves: ["megadrain", "megadrain"],
+		comboMoves: ["surf", "hydropump"],
+		tier: "Gen1 LC",
+	},
+	tentacruelgen1: {
+		randomBattleMoves: ["blizzard", "hydropump", "surf", "hyperbeam"],
+		essentialMove: "swordsdance",
+		tier: "Gen1 UU",
+	},
+	geodudegen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "rockslide", "explosion"],
+		tier: "Gen1 LC",
+	},
+	gravelergen1: {
+		randomBattleMoves: ["bodyslam", "earthquake", "rockslide", "explosion"],
+		tier: "Gen1 UU",
+	},
+	golemgen1: {
+		randomBattleMoves: ["explosion", "bodyslam", "earthquake", "rockslide"],
+		tier: "Gen1 UU",
+	},
+	ponytagen1: {
+		randomBattleMoves: ["fireblast", "agility", "bodyslam", "reflect"],
+		tier: "Gen1 LC",
+	},
+	rapidashgen1: {
+		randomBattleMoves: ["fireblast", "agility", "bodyslam", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	slowpokegen1: {
+		randomBattleMoves: ["earthquake", "surf"],
+		essentialMove: "thunderwave",
+		exclusiveMoves: ["blizzard", "psychic", "rest"],
+		comboMoves: ["amnesia", "surf"],
+		tier: "Gen1 LC",
+	},
+	slowbrogen1: {
+		randomBattleMoves: ["amnesia", "surf", "thunderwave"],
+		exclusiveMoves: ["rest", "rest", "psychic", "blizzard"],
+		tier: "Gen1 OU",
+	},
+	magnemitegen1: {
+		randomBattleMoves: ["thunderwave", "thunder", "thunderbolt"],
+		exclusiveMoves: ["mimic", "doubleedge", "toxic", "substitute"],
+		tier: "Gen1 LC",
+	},
+	magnetongen1: {
+		randomBattleMoves: ["thunderwave", "thunder", "thunderbolt"],
+		exclusiveMoves: ["mimic", "doubleedge", "toxic", "hyperbeam", "hyperbeam", "substitute"],
+		tier: "Gen1 UU",
+	},
+	farfetchdgen1: {
+		randomBattleMoves: ["agility", "swordsdance", "bodyslam"],
+		essentialMove: "slash",
+		tier: "Gen1 UU",
+	},
+	doduogen1: {
+		randomBattleMoves: ["drillpeck", "bodyslam", "agility", "doubleedge"],
+		tier: "Gen1 LC",
+	},
+	dodriogen1: {
+		randomBattleMoves: ["drillpeck", "bodyslam", "agility", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	seelgen1: {
+		randomBattleMoves: ["surf", "blizzard", "bodyslam"],
+		exclusiveMoves: ["rest", "mimic"],
+		tier: "Gen1 LC",
+	},
+	dewgonggen1: {
+		randomBattleMoves: ["surf", "blizzard", "bodyslam"],
+		exclusiveMoves: ["rest", "rest", "mimic", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	grimergen1: {
+		randomBattleMoves: ["sludge", "bodyslam"],
+		essentialMove: "explosion",
+		exclusiveMoves: ["megadrain", "megadrain", "fireblast", "screech"],
+		tier: "Gen1 LC",
+	},
+	mukgen1: {
+		randomBattleMoves: ["sludge", "bodyslam"],
+		essentialMove: "explosion",
+		exclusiveMoves: ["megadrain", "megadrain", "fireblast", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	shelldergen1: {
+		randomBattleMoves: ["surf", "blizzard", "doubleedge", "explosion"],
+		tier: "Gen1 LC",
+	},
+	cloystergen1: {
+		randomBattleMoves: ["surf", "blizzard", "explosion"],
+		exclusiveMoves: ["hyperbeam", "hyperbeam", "doubleedge"],
+		tier: "Gen1 OU",
+	},
+	gastlygen1: {
+		randomBattleMoves: ["explosion", "megadrain", "nightshade", "psychic"],
+		essentialMove: "thunderbolt",
+		exclusiveMoves: ["hypnosis", "hypnosis", "confuseray"],
+		tier: "Gen1 LC",
+	},
+	hauntergen1: {
+		randomBattleMoves: ["explosion", "megadrain", "nightshade", "psychic"],
+		essentialMove: "thunderbolt",
+		exclusiveMoves: ["hypnosis", "hypnosis", "confuseray"],
+		tier: "Gen1 UU",
+	},
+	gengargen1: {
+		randomBattleMoves: ["explosion", "megadrain", "nightshade", "psychic"],
+		essentialMove: "thunderbolt",
+		exclusiveMoves: ["hypnosis", "hypnosis", "confuseray"],
+		tier: "Gen1 OU",
+	},
+	onixgen1: {
+		randomBattleMoves: ["earthquake", "explosion", "rockslide", "bodyslam"],
+		tier: "Gen1 UU",
+	},
+	drowzeegen1: {
+		randomBattleMoves: ["hypnosis", "psychic", "thunderwave"],
+		exclusiveMoves: ["seismictoss", "seismictoss", "counter", "reflect", "rest"],
+		tier: "Gen1 LC",
+	},
+	hypnogen1: {
+		randomBattleMoves: ["hypnosis", "psychic", "thunderwave"],
+		exclusiveMoves: ["seismictoss", "seismictoss", "counter", "rest", "rest", "reflect"],
+		tier: "Gen1 UU",
+	},
+	krabbygen1: {
+		randomBattleMoves: ["bodyslam", "crabhammer", "swordsdance", "blizzard"],
+		tier: "Gen1 LC",
+	},
+	kinglergen1: {
+		randomBattleMoves: ["bodyslam", "hyperbeam", "swordsdance", "crabhammer"],
+		tier: "Gen1 UU",
+	},
+	voltorbgen1: {
+		randomBattleMoves: ["thunderbolt", "thunderwave", "explosion"],
+		exclusiveMoves: ["thunder", "screech", "toxic"],
+		tier: "Gen1 LC",
+	},
+	electrodegen1: {
+		randomBattleMoves: ["thunderbolt", "thunderwave", "explosion"],
+		exclusiveMoves: ["thunder", "screech", "toxic", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	exeggcutegen1: {
+		randomBattleMoves: ["sleeppowder", "stunspore"],
+		essentialMove: "psychic",
+		exclusiveMoves: ["explosion", "explosion", "doubleedge"],
+		tier: "Gen1 LC",
+	},
+	exeggutorgen1: {
+		randomBattleMoves: ["psychic", "explosion", "sleeppowder"],
+		exclusiveMoves: ["stunspore", "stunspore", "stunspore", "megadrain", "megadrain", "eggbomb", "doubleedge", "hyperbeam"],
+		tier: "Gen1 OU",
+	},
+	cubonegen1: {
+		randomBattleMoves: ["earthquake", "blizzard", "bodyslam", "seismictoss"],
+		tier: "Gen1 LC",
+	},
+	marowakgen1: {
+		randomBattleMoves: ["earthquake", "blizzard", "bodyslam", "seismictoss"],
+		tier: "Gen1 UU",
+	},
+	hitmonleegen1: {
+		randomBattleMoves: ["bodyslam", "highjumpkick", "seismictoss"],
+		exclusiveMoves: ["counter", "counter", "meditate"],
+		tier: "Gen1 UU",
+	},
+	hitmonchangen1: {
+		randomBattleMoves: ["bodyslam", "submission", "seismictoss"],
+		exclusiveMoves: ["counter", "counter", "agility"],
+		tier: "Gen1 UU",
+	},
+	lickitunggen1: {
+		randomBattleMoves: ["swordsdance", "hyperbeam"],
+		essentialMove: "bodyslam",
+		exclusiveMoves: ["earthquake", "earthquake", "earthquake", "blizzard"],
+		tier: "Gen1 UU",
+	},
+	koffinggen1: {
+		randomBattleMoves: ["sludge", "explosion", "thunderbolt", "fireblast"],
+		tier: "Gen1 LC",
+	},
+	weezinggen1: {
+		randomBattleMoves: ["sludge", "explosion", "thunderbolt", "fireblast"],
+		tier: "Gen1 UU",
+	},
+	rhyhorngen1: {
+		randomBattleMoves: ["earthquake", "rockslide", "substitute", "bodyslam"],
+		tier: "Gen1 LC",
+	},
+	rhydongen1: {
+		randomBattleMoves: ["earthquake", "rockslide", "bodyslam"],
+		exclusiveMoves: ["substitute", "substitute", "hyperbeam"],
+		tier: "Gen1 OU",
+	},
+	chanseygen1: {
+		randomBattleMoves: ["icebeam", "thunderwave"],
+		essentialMove: "softboiled",
+		exclusiveMoves: ["counter", "sing", "reflect", "thunderbolt", "thunderbolt", "thunderbolt", "seismictoss"],
+		tier: "Gen1 OU",
+	},
+	tangelagen1: {
+		randomBattleMoves: ["sleeppowder", "bodyslam", "swordsdance"],
+		essentialMove: "megadrain",
+		comboMoves: ["growth", "stunspore"],
+		tier: "Gen1 UU",
+	},
+	kangaskhangen1: {
+		randomBattleMoves: ["bodyslam", "hyperbeam", "earthquake"],
+		exclusiveMoves: ["surf", "rockslide", "rockslide", "counter"],
+		tier: "Gen1 UU",
+	},
+	horseagen1: {
+		randomBattleMoves: ["agility", "blizzard"],
+		essentialMove: "surf",
+		exclusiveMoves: ["doubleedge", "smokescreen", "hydropump"],
+		tier: "Gen1 LC",
+	},
+	seadragen1: {
+		randomBattleMoves: ["agility", "blizzard"],
+		essentialMove: "surf",
+		exclusiveMoves: ["doubleedge", "smokescreen", "hyperbeam", "hydropump"],
+		tier: "Gen1 UU",
+	},
+	goldeengen1: {
+		randomBattleMoves: ["surf", "blizzard", "agility", "doubleedge"],
+		tier: "Gen1 LC",
+	},
+	seakinggen1: {
+		randomBattleMoves: ["surf", "blizzard", "doubleedge"],
+		exclusiveMoves: ["hyperbeam", "agility", "agility"],
+		tier: "Gen1 UU",
+	},
+	staryugen1: {
+		randomBattleMoves: ["blizzard", "thunderbolt", "thunderwave"],
+		essentialMove: "recover",
+		exclusiveMoves: ["surf", "surf", "hydropump"],
+		tier: "Gen1 LC",
+	},
+	starmiegen1: {
+		randomBattleMoves: ["blizzard", "thunderbolt", "thunderwave"],
+		essentialMove: "recover",
+		exclusiveMoves: ["surf", "hydropump", "psychic", "surf"],
+		tier: "Gen1 OU",
+	},
+	mrmimegen1: {
+		randomBattleMoves: ["psychic", "thunderwave", "thunderbolt", "seismictoss"],
+		tier: "Gen1 UU",
+	},
+	scythergen1: {
+		randomBattleMoves: ["slash", "swordsdance", "agility", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	jynxgen1: {
+		randomBattleMoves: ["lovelykiss", "blizzard", "psychic"],
+		exclusiveMoves: ["mimic", "bodyslam", "seismictoss", "counter", "counter"],
+		tier: "Gen1 OU",
+	},
+	electabuzzgen1: {
+		randomBattleMoves: ["thunderbolt", "thunderwave", "psychic", "seismictoss"],
+		tier: "Gen1 UU",
+	},
+	magmargen1: {
+		randomBattleMoves: ["confuseray", "fireblast", "bodyslam"],
+		exclusiveMoves: ["psychic", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	pinsirgen1: {
+		randomBattleMoves: ["swordsdance", "hyperbeam", "bodyslam"],
+		exclusiveMoves: ["submission", "submission", "seismictoss"],
+		tier: "Gen1 UU",
+	},
+	taurosgen1: {
+		randomBattleMoves: ["bodyslam", "hyperbeam", "earthquake"],
+		exclusiveMoves: ["blizzard", "blizzard", "blizzard", "thunderbolt"],
+		tier: "Gen1 OU",
+	},
+	magikarpgen1: {
+		randomBattleMoves: ["tackle", "dragonrage"],
+		tier: "Gen1 LC",
+	},
+	gyaradosgen1: {
+		randomBattleMoves: ["blizzard", "thunderbolt", "bodyslam", "hyperbeam"],
+		exclusiveMoves: ["surf", "hydropump"],
+		tier: "Gen1 UU",
+	},
+	laprasgen1: {
+		randomBattleMoves: ["surf", "bodyslam", "sing", "rest", "confuseray"],
+		essentialMove: "blizzard",
+		exclusiveMoves: ["thunderbolt", "thunderbolt"],
+		tier: "Gen1 OU",
+	},
+	dittogen1: {
+		randomBattleMoves: ["transform"],
+		tier: "Gen1 UU",
+	},
+	eeveegen1: {
+		randomBattleMoves: ["doubleedge", "reflect", "quickattack"],
+		essentialMove: "bodyslam",
+		exclusiveMoves: ["mimic", "sandattack", "tailwhip", "bide"],
+		tier: "Gen1 LC",
+	},
+	vaporeongen1: {
+		randomBattleMoves: ["rest", "blizzard"],
+		essentialMove: "surf",
+		exclusiveMoves: ["bodyslam", "mimic", "hydropump"],
+		tier: "Gen1 UU",
+	},
+	jolteongen1: {
+		randomBattleMoves: ["thunderwave", "bodyslam", "thunderbolt"],
+		exclusiveMoves: ["pinmissile", "pinmissile", "doublekick", "agility", "agility"],
+		tier: "Gen1 OU",
+	},
+	flareongen1: {
+		randomBattleMoves: ["fireblast", "bodyslam", "hyperbeam", "quickattack"],
+		tier: "Gen1 UU",
+	},
+	porygongen1: {
+		randomBattleMoves: ["thunderwave", "blizzard"],
+		essentialMove: "recover",
+		exclusiveMoves: ["psychic", "thunderbolt", "triattack", "doubleedge"],
+		tier: "Gen1 UU",
+	},
+	omanytegen1: {
+		randomBattleMoves: ["hydropump", "surf", "bodyslam", "rest"],
+		essentialMove: "blizzard",
+		tier: "Gen1 LC",
+	},
+	omastargen1: {
+		randomBattleMoves: ["hydropump", "surf", "seismictoss", "blizzard"],
+		exclusiveMoves: ["bodyslam", "rest"],
+		tier: "Gen1 UU",
+	},
+	kabutogen1: {
+		randomBattleMoves: ["blizzard", "bodyslam", "surf", "slash"],
+		tier: "Gen1 LC",
+	},
+	kabutopsgen1: {
+		randomBattleMoves: ["swordsdance", "surf", "hyperbeam"],
+		exclusiveMoves: ["bodyslam", "slash"],
+		tier: "Gen1 UU",
+	},
+	aerodactylgen1: {
+		randomBattleMoves: ["skyattack", "fireblast", "doubleedge", "hyperbeam"],
+		tier: "Gen1 UU",
+	},
+	snorlaxgen1: {
+		randomBattleMoves: ["rest", "thunderbolt", "bodyslam", "selfdestruct"],
+		essentialMove: "amnesia",
+		exclusiveMoves: ["blizzard", "blizzard"],
+		comboMoves: ["earthquake", "hyperbeam", "bodyslam", "selfdestruct"],
+		tier: "Gen1 OU",
+	},
+	articunogen1: {
+		randomBattleMoves: ["hyperbeam", "agility", "mimic", "reflect", "icebeam"],
+		essentialMove: "blizzard",
+		comboMoves: ["icebeam", "rest", "reflect"],
+		tier: "Gen1 UU",
+	},
+	zapdosgen1: {
+		randomBattleMoves: ["thunderbolt", "drillpeck", "thunderwave", "agility"],
+		tier: "Gen1 OU",
+	},
+	moltresgen1: {
+		randomBattleMoves: ["agility", "hyperbeam", "fireblast"],
+		exclusiveMoves: ["doubleedge", "reflect", "skyattack"],
+		tier: "Gen1 UU",
+	},
+	dratinigen1: {
+		randomBattleMoves: ["hyperbeam", "thunderbolt", "bodyslam", "thunderwave"],
+		essentialMove: "blizzard",
+		tier: "Gen1 LC",
+	},
+	dragonairgen1: {
+		randomBattleMoves: ["hyperbeam", "thunderbolt", "bodyslam", "thunderwave"],
+		essentialMove: "blizzard",
+		tier: "Gen1 NFE",
+	},
+	dragonitegen1: {
+		randomBattleMoves: ["hyperbeam", "thunderbolt", "bodyslam", "thunderwave"],
+		essentialMove: "blizzard",
+		tier: "Gen1 UU",
+	},
+	mewtwogen1: {
+		randomBattleMoves: ["thunderbolt", "blizzard", "recover"],
+		essentialMove: "amnesia",
+		exclusiveMoves: ["psychic", "psychic"],
+		comboMoves: ["rest", "barrier"],
+		tier: "Gen1 Uber",
+	},
+	mewgen1: {
+		randomBattleMoves: ["thunderwave", "thunderbolt", "blizzard", "earthquake"],
+		essentialMove: "psychic",
+		exclusiveMoves: ["softboiled", "softboiled", "explosion"],
+		comboMoves: ["swordsdance", "earthquake", "hyperbeam"],
+		tier: "Gen1 Uber",
+	},
+	missingnogen1: {
+		isNonstandard: "Unobtainable",
+		tier: "Gen1 Illegal",
+	},
+}; exports.FormatsData = FormatsData;
+
