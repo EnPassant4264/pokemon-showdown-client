@@ -9,7 +9,7 @@ const rootDir = path.resolve(__dirname, '..');
 process.chdir(rootDir);
 
 if (!fs.existsSync('data/pokemon-showdown')) {
-	child_process.execSync('git clone -b random https://github.com/Wanton-Swanton/DH.git pokemon-showdown', {
+	child_process.execSync('git clone https://github.com/EnPassant4264/DH.git pokemon-showdown', {
 		cwd: 'data',
 	});
 }
@@ -1312,10 +1312,15 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	//Add entries for all mods
 	fs.readdirSync('data/pokemon-showdown/.data-dist/mods/').forEach((folder) => {
 		//Skip past gens, we only want OMs added to the DH Dex.
-		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) continue;
+		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) return;
 		
 		//Start with mod info if it's there
-		const modInfo = readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
+		const modInfo = '';
+		fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+			if(err == null) {
+				modInfo = fs.readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
+			}
+		});
 		let modName = folder;
 		let modAbb = modName.substring(0,6);
 		if(modInfo){
@@ -1332,13 +1337,23 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		}
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
-		const modDex = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
-		const modFormats = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
+		const modDex = '';
+		fs.stat('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js', function(err, stat) {
+			if(err == null) {
+				modDex = requireNoCache('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
+			}
+		});
+		const modFormats = '';
+		fs.stat('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js', function(err, stat) {
+			if(err == null) {
+				modFormats = requireNoCache('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
+			}
+		});
 		//const modLearnsets = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets;
 		
 		//Places where final IDs are stored. These are written to regardless, because even one ID change means we need every single entry in order to overwrite the original file.
-		const uniqueModDex: {[speciesid: string]: ModdedSpeciesData} = {};
-		const uniqueModFormats: {[speciesid: string]: ModdedSpeciesFormatData} = {};
+		const uniqueModDex = {};
+		const uniqueModFormats = {};
 		//const uniqueModLearnsets: {[speciesid: string]: ModdedLearnsetData} = {};
 		
 		//Used at the end if the two non-Dex things above are necessary to change.
@@ -1391,11 +1406,11 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		//Lastly, update the formats-data and learnsets with the unique IDs if necessary.
 		if(updateFormats) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData = uniqueModFormats;
 		//if(updateLearnsets) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets = uniqueModLearnsets;
-	}
+	})
 	const buf = 'exports.BattlePokedex = ' + es3stringify(Pokedex) + ';';
 	fs.writeFileSync('data/pokedex.js', buf);
 	fs.writeFileSync('data/pokedex.json', JSON.stringify(Pokedex));
-	fs.writeFileSync('../data/metagame-headers.js', mgHeaders);
+	//fs.writeFileSync('data/metagame-headers.js', es3stringify(mgHeaders));
 }
 
 console.log("DONE");
@@ -1476,11 +1491,16 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	//Add mod files
 	fs.readdirSync('data/pokemon-showdown/.data-dist/mods/').forEach((folder) => {
 		//Skip past gens, we only want OMs added to the DH Dex.
-		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) continue;
+		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) return;
 		
-		const modFormats = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').FormatsData;
+		const modFormats = '';
+		fs.stat('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js', function(err, stat) {
+			if(err == null) {
+				modFormats = requireNoCache('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
+			}
+		});
 		Object.assign(FormatsData, modFormats);
-	}
+	})
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
 }

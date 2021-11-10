@@ -45,6 +45,10 @@ var search=this.props.search;
 var pokemon=search.dex.getSpecies(id);
 if(!pokemon)return preact.h("li",{"class":"result"},"Unrecognized pokemon");
 
+if(pokemon.otherMetagame){
+pokemon.name=pokemon.name.substring(0,pokemon.name.indexOf("~"));
+}
+
 var tagStart=pokemon.forme?pokemon.name.length-pokemon.forme.length-1:0;
 
 var stats=pokemon.baseStats;

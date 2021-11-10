@@ -861,42 +861,13 @@ if(!this.mod)return BattlePokedex;else
 return Object.assign({},BattleTeambuilderTable[this.mod].overrideDexInfo,BattlePokedex);
 };_proto3.
 getDefaultResults=function getDefaultResults(){
+var metagameHeaders=requireNoCache('../data/metagame-headers.js').MetagameHeaders;
 var results=[];
 for(var _id9 in BattlePokedex){
-switch(_id9){
-case'bulbasaur':
-results.push(['header',"Generation 1"]);
-break;
-case'chikorita':
-results.push(['header',"Generation 2"]);
-break;
-case'treecko':
-results.push(['header',"Generation 3"]);
-break;
-case'turtwig':
-results.push(['header',"Generation 4"]);
-break;
-case'victini':
-results.push(['header',"Generation 5"]);
-break;
-case'chespin':
-results.push(['header',"Generation 6"]);
-break;
-case'rowlet':
-results.push(['header',"Generation 7"]);
-break;
-case'grookey':
-results.push(['header',"Generation 8"]);
-break;
-case'missingno':
-results.push(['header',"Glitch"]);
-break;
-case'tomohawk':
-results.push(['header',"CAP"]);
-break;
-case'pikachucosplay':
-continue;}
-
+if(_id9==='pikachucosplay')continue;
+if(metagameHeaders[_id9]){
+results.push(['header',metagameHeaders[_id9]]);
+}
 results.push(['pokemon',_id9]);
 }
 return results;

@@ -34,26 +34,6 @@ const ModConfigData = {
 		smashmodsmelee: {
 			excludeStandardTiers: true,
 		},
-		random: {
-			customTiers: ['Rand Sus', 'Rand'],
-			excludeStandardTiers: true,
-		},
-		randomduo: {
-			customTiers: ['Rand Duo Uber', 'Rand Duo'],
-			excludeStandardTiers: true,
-		},
-		randommossy: {
-			customTiers: ['Rand Mossy Uber', 'Rand Mossy'],
-			excludeStandardTiers: true,
-		},
-		pokemonns: {
-			customTiers: ['NSLC', 'NSNFE', 'NSOU'],
-			excludeStandardTiers: true,
-		},
-		yakmons: {
-			customTiers: ['Yak'],
-			excludeStandardTiers: true,
-		},
 	},
 };
 exports.ModConfigData = ModConfigData;
