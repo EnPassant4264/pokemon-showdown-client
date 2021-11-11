@@ -1297,7 +1297,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const mgHeaders = requireNoCache('../data/metagame-headers.js').MetagameHeaders;
 	
 	//Entries for regular Pokemon
-	const Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
+	var Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
@@ -1316,7 +1316,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		//Start with mod info if it's there
 		const modInfo = '';
-		fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+		fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
 			if(err == null) {
 				modInfo = fs.readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
 			}
@@ -1337,23 +1337,21 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		}
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
-		const modDex = '';
-		fs.stat('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js', function(err, stat) {
-			if(err == null) {
-				modDex = requireNoCache('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
-			}
-		});
-		const modFormats = '';
-		fs.stat('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js', function(err, stat) {
-			if(err == null) {
-				modFormats = requireNoCache('/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
-			}
-		});
+		var modDex = '';
+		var pathDex = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
+		if (fs.existsSync(pathDex)) {
+			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
+		}
+		var modFormats = '';
+		var pathFormats = 'C:\Users\pswan\Downloads\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods/' + folder + "/" + 'formats-data.js';
+		if (fs.existsSync(pathFormats)) {
+			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
+		}
 		//const modLearnsets = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets;
 		
 		//Places where final IDs are stored. These are written to regardless, because even one ID change means we need every single entry in order to overwrite the original file.
-		const uniqueModDex = {};
-		const uniqueModFormats = {};
+		var uniqueModDex = {};
+		var uniqueModFormats = {};
 		//const uniqueModLearnsets: {[speciesid: string]: ModdedLearnsetData} = {};
 		
 		//Used at the end if the two non-Dex things above are necessary to change.
