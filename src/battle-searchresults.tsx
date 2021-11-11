@@ -46,7 +46,7 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 		if (!pokemon) return <li class="result">Unrecognized pokemon</li>;
 		
 		if(pokemon.otherMetagame){//Remove the metagame name from the Pokemon before displaying
-			pokemon.name = pokemon.name.substring(0,pokemon.name.indexOf("~"));
+			pokemon.name = pokemon.name.slice(0, pokemon.name.indexOf("~"));
 		}
 
 		let tagStart = (pokemon.forme ? pokemon.name.length - pokemon.forme.length - 1 : 0);

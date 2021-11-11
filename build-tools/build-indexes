@@ -1294,7 +1294,12 @@ process.stdout.write("Building `data/pokedex.js`... ");
 
 {
 	//Load up metagame headers for default search
-	const mgHeaders = requireNoCache('../data/metagame-headers.js').MetagameHeaders;
+	const mgHeaders = '';
+	fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+		if(err == null) {
+			mgHeaders = fs.readFileSync('../data/metagame-headers.js').MetagameHeaders;
+		}
+	});
 	
 	//Entries for regular Pokemon
 	var Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
@@ -1315,8 +1320,8 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) return;
 		
 		//Start with mod info if it's there
-		const modInfo = '';
-		fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+		var modInfo = '';
+		fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
 			if(err == null) {
 				modInfo = fs.readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
 			}
@@ -1325,12 +1330,12 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		let modAbb = modName.substring(0,6);
 		if(modInfo){
 			//Name: Info past ": " if it exists, otherwise whole line if it exists
-			if(modInfo[0] && modInfo[0].length > 0) modName = modInfo[0].indexOf(": ") ? modInfo[0].substring(modInfo[0].indexOf(": ")) : modInfo[0];
+			if(modInfo[0] && modInfo[0].length > 0) modName = modInfo[0].indexOf(": ") ? modInfo[0].substring(modInfo[0].indexOf(": ") + 2) : modInfo[0];
 			//Abbrev.: Same thing, but limited to 6 characters
-			if(modInfo[1] && modInfo[1].length > 0) modAbb = (modInfo[1].indexOf(": ") ? modInfo[1].substring(modInfo[1].indexOf(": ")) : modInfo[1]).substring(0,6);
+			if(modInfo[1] && modInfo[1].length > 0) modAbb = (modInfo[1].indexOf(": ") ? modInfo[1].substring(modInfo[1].indexOf(": ") + 2) : modInfo[1]).substring(0,6);
 			//Adds the Pokemon and mod to the header list for the Dex to know the start of the mod's Pokemon.
 			if(modInfo[3] && modInfo[3].length > 0){
-				let firstMon = (modInfo[3].indexOf(": ") ? modInfo[3].substring(modInfo[3].indexOf(": ")) : modInfo[3]).toLowerCase(); //Same rules as before, but no default.
+				let firstMon = (modInfo[3].indexOf(": ") ? modInfo[3].substring(modInfo[3].indexOf(": ") + 2) : modInfo[3]).toLowerCase(); //Same rules as before, but no default.
 				if(Pokedex[firstMon]) firstMon += modName.toLowerCase(); //If it's a canon Mon, add its unique ID so the right one is picked.
 				mgHeaders[firstMon] = modName;
 			}
@@ -1343,7 +1348,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
 		}
 		var modFormats = '';
-		var pathFormats = 'C:\Users\pswan\Downloads\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods/' + folder + "/" + 'formats-data.js';
+		var pathFormats = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
 		if (fs.existsSync(pathFormats)) {
 			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
 		}
@@ -1360,10 +1365,19 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		for (let id in modDex) {
 			const entry = modDex[id];
-			if(Pokedex[id]){ //Pokemon already exists and needs a unique ID for this mod's iteration of it.
+			if(Pokedex[id] && Pokedex[id].name){ //Pokemon already exists, wasn't erased from existence, and needs a unique ID for this mod's iteration of it.
 				const uniqueID = id + modName.toLowerCase();
 				let uniqueEntry = entry;
 				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
+				
+				//Pull and overwrite inherited information
+				if(entry.inherit){
+					delete uniqueEntry.inherit;
+					for (const key in Pokedex[id]) {
+						if (key in entry) continue;
+						uniqueEntry[key] = Pokedex[i][key];
+					}
+				}
 				
 				//Check for formats
 				if(modFormats[id]){
@@ -1408,7 +1422,8 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const buf = 'exports.BattlePokedex = ' + es3stringify(Pokedex) + ';';
 	fs.writeFileSync('data/pokedex.js', buf);
 	fs.writeFileSync('data/pokedex.json', JSON.stringify(Pokedex));
-	//fs.writeFileSync('data/metagame-headers.js', es3stringify(mgHeaders));
+	const mbuf = 'exports.MetagameHeaders = ' + es3stringify(mgHeaders) + ';';
+	fs.writeFileSync('../data/metagame-headers.js', mbuf);
 }
 
 console.log("DONE");

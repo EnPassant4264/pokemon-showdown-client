@@ -861,41 +861,58 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else return {...BattleTeambuilderTable[this.mod].overrideDexInfo, ...BattlePokedex};
 	}
 	getDefaultResults(): SearchRow[] {
-		let results: SearchRow[] = [];
-		for (let id in BattlePokedex) {
-			switch (id) {
-				case 'bulbasaur':
-					results.push(['header', "Generation 1"]);
-					break;
-				case 'chikorita':
-					results.push(['header', "Generation 2"]);
-					break;
-				case 'treecko':
-					results.push(['header', "Generation 3"]);
-					break;
-				case 'turtwig':
-					results.push(['header', "Generation 4"]);
-					break;
-				case 'victini':
-					results.push(['header', "Generation 5"]);
-					break;
-				case 'chespin':
-					results.push(['header', "Generation 6"]);
-					break;
-				case 'rowlet':
-					results.push(['header', "Generation 7"]);
-					break;
-				case 'grookey':
-					results.push(['header', "Generation 8"]);
-					break;
-				case 'missingno':
-					results.push(['header', "Glitch"]);
-					break;
-				case 'tomohawk':
-					results.push(['header', "CAP"]);
-					break;
+		const headers = '';
+		fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+			if(err == null) {
+				headers = fs.readFileSync('../data/metagame-headers.js').MetagameHeaders;
 			}
-			results.push(['pokemon', id as ID]);
+		});
+		let results: SearchRow[] = [];
+		if(headers){
+			for (let id in BattlePokedex) {
+				if(headers[id]){
+					results.push(['header'], headers[id]);
+				}
+			}
+		} else { //Default (canon) tier headers
+			for (let id in BattlePokedex) {
+				switch (id) {
+					case 'bulbasaur':
+						results.push(['header', "Generation 1"]);
+						break;
+					case 'chikorita':
+						results.push(['header', "Generation 2"]);
+						break;
+					case 'treecko':
+						results.push(['header', "Generation 3"]);
+						break;
+					case 'turtwig':
+						results.push(['header', "Generation 4"]);
+						break;
+					case 'victini':
+						results.push(['header', "Generation 5"]);
+						break;
+					case 'chespin':
+						results.push(['header', "Generation 6"]);
+						break;
+					case 'rowlet':
+						results.push(['header', "Generation 7"]);
+						break;
+					case 'grookey':
+						results.push(['header', "Generation 8"]);
+						break;
+					case 'missingno':
+						results.push(['header', "Glitch"]);
+						break;
+					case 'syclar':
+						results.push(['header', "CAP"]);
+						break;
+					case 'pokestarsmeargle':
+						results.push(['header', "Pokestar"]);
+						break;
+				}
+				results.push(['pokemon', id as ID]);
+			}
 		}
 		return results;
 	}
