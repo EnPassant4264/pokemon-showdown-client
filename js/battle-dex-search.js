@@ -846,18 +846,13 @@ if(id in table.overrideTier){
 return table.overrideTier[id];
 }
 return pokemon.tier;
-};return BattleTypedSearch;}();
+};return BattleTypedSearch;}();var
 
 
 
 
 
 
-
-function requireNoCache(pathSpec){
-delete require.cache[require.resolve(pathSpec)];
-return require(pathSpec);
-}var
 
 BattlePokemonSearch=function(_BattleTypedSearch){_inheritsLoose(BattlePokemonSearch,_BattleTypedSearch);function BattlePokemonSearch(){var _this2;for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this2=_BattleTypedSearch.call.apply(_BattleTypedSearch,[this].concat(args))||this;_this2.
 sortRow=['sortpokemon',''];return _this2;}var _proto3=BattlePokemonSearch.prototype;_proto3.
@@ -866,13 +861,40 @@ if(!this.mod)return BattlePokedex;else
 return Object.assign({},BattleTeambuilderTable[this.mod].overrideDexInfo,BattlePokedex);
 };_proto3.
 getDefaultResults=function getDefaultResults(){
-var metagameHeaders=requireNoCache('../data/metagame-headers.js').MetagameHeaders;
 var results=[];
 for(var _id9 in BattlePokedex){
-if(_id9==='pikachucosplay')continue;
-if(metagameHeaders[_id9]){
-results.push(['header',metagameHeaders[_id9]]);
-}
+switch(_id9){
+case'bulbasaur':
+results.push(['header',"Generation 1"]);
+break;
+case'chikorita':
+results.push(['header',"Generation 2"]);
+break;
+case'treecko':
+results.push(['header',"Generation 3"]);
+break;
+case'turtwig':
+results.push(['header',"Generation 4"]);
+break;
+case'victini':
+results.push(['header',"Generation 5"]);
+break;
+case'chespin':
+results.push(['header',"Generation 6"]);
+break;
+case'rowlet':
+results.push(['header',"Generation 7"]);
+break;
+case'grookey':
+results.push(['header',"Generation 8"]);
+break;
+case'missingno':
+results.push(['header',"Glitch"]);
+break;
+case'tomohawk':
+results.push(['header',"CAP"]);
+break;}
+
 results.push(['pokemon',_id9]);
 }
 return results;

@@ -854,11 +854,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	abstract sort(input: SearchRow[], sortCol: string): SearchRow[];
 }
 
-function requireNoCache(pathSpec) {
-	delete require.cache[require.resolve(pathSpec)];
-	return require(pathSpec);
-}
-
 class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 	sortRow: SearchRow = ['sortpokemon', ''];
 	getTable() {
@@ -866,12 +861,39 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else return {...BattleTeambuilderTable[this.mod].overrideDexInfo, ...BattlePokedex};
 	}
 	getDefaultResults(): SearchRow[] {
-		const metagameHeaders = requireNoCache('../data/metagame-headers.js').MetagameHeaders;
 		let results: SearchRow[] = [];
 		for (let id in BattlePokedex) {
-			if(id === 'pikachucosplay') continue;
-			if(metagameHeaders[id]){
-				results.push(['header', metagameHeaders[id]]);
+			switch (id) {
+				case 'bulbasaur':
+					results.push(['header', "Generation 1"]);
+					break;
+				case 'chikorita':
+					results.push(['header', "Generation 2"]);
+					break;
+				case 'treecko':
+					results.push(['header', "Generation 3"]);
+					break;
+				case 'turtwig':
+					results.push(['header', "Generation 4"]);
+					break;
+				case 'victini':
+					results.push(['header', "Generation 5"]);
+					break;
+				case 'chespin':
+					results.push(['header', "Generation 6"]);
+					break;
+				case 'rowlet':
+					results.push(['header', "Generation 7"]);
+					break;
+				case 'grookey':
+					results.push(['header', "Generation 8"]);
+					break;
+				case 'missingno':
+					results.push(['header', "Glitch"]);
+					break;
+				case 'tomohawk':
+					results.push(['header', "CAP"]);
+					break;
 			}
 			results.push(['pokemon', id as ID]);
 		}
