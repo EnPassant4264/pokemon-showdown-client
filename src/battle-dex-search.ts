@@ -854,6 +854,11 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	abstract sort(input: SearchRow[], sortCol: string): SearchRow[];
 }
 
+function requireNoCache(pathSpec) {
+	delete require.cache[require.resolve(pathSpec)];
+	return require(pathSpec);
+}
+
 class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 	sortRow: SearchRow = ['sortpokemon', ''];
 	getTable() {

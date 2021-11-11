@@ -846,13 +846,18 @@ if(id in table.overrideTier){
 return table.overrideTier[id];
 }
 return pokemon.tier;
-};return BattleTypedSearch;}();var
+};return BattleTypedSearch;}();
 
 
 
 
 
 
+
+function requireNoCache(pathSpec){
+delete require.cache[require.resolve(pathSpec)];
+return require(pathSpec);
+}var
 
 BattlePokemonSearch=function(_BattleTypedSearch){_inheritsLoose(BattlePokemonSearch,_BattleTypedSearch);function BattlePokemonSearch(){var _this2;for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this2=_BattleTypedSearch.call.apply(_BattleTypedSearch,[this].concat(args))||this;_this2.
 sortRow=['sortpokemon',''];return _this2;}var _proto3=BattlePokemonSearch.prototype;_proto3.
