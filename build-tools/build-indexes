@@ -1294,12 +1294,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 
 {
 	//Load up metagame headers for default search
-	const mgHeaders = '';
-	fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
-		if(err == null) {
-			mgHeaders = fs.readFileSync('../data/metagame-headers.js').MetagameHeaders;
-		}
-	});
+	//const mgHeaders = requireNoCache('../data/metagame-headers.ts').MetagameHeaders;
 	
 	//Entries for regular Pokemon
 	var Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
@@ -1321,11 +1316,11 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		//Start with mod info if it's there
 		var modInfo = '';
-		fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
+		/*fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat)) {
 			if(err == null) {
 				modInfo = fs.readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
 			}
-		});
+		});*/
 		let modName = folder;
 		let modAbb = modName.substring(0,6);
 		if(modInfo){
@@ -1368,16 +1363,16 @@ process.stdout.write("Building `data/pokedex.js`... ");
 			if(Pokedex[id] && Pokedex[id].name){ //Pokemon already exists, wasn't erased from existence, and needs a unique ID for this mod's iteration of it.
 				const uniqueID = id + modName.toLowerCase();
 				let uniqueEntry = entry;
-				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
 				
 				//Pull and overwrite inherited information
 				if(entry.inherit){
 					delete uniqueEntry.inherit;
 					for (const key in Pokedex[id]) {
 						if (key in entry) continue;
-						uniqueEntry[key] = Pokedex[i][key];
+						uniqueEntry[key] = Pokedex[id][key];
 					}
 				}
+				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
 				
 				//Check for formats
 				if(modFormats[id]){

@@ -861,18 +861,14 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else return {...BattleTeambuilderTable[this.mod].overrideDexInfo, ...BattlePokedex};
 	}
 	getDefaultResults(): SearchRow[] {
-		const headers = '';
-		fs.stat('data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat) {
-			if(err == null) {
-				headers = fs.readFileSync('../data/metagame-headers.js').MetagameHeaders;
-			}
-		});
+		const headers = undefined;//requireNoCache('../data/metagame-headers.ts').MetagameHeaders;
 		let results: SearchRow[] = [];
 		if(headers){
 			for (let id in BattlePokedex) {
 				if(headers[id]){
 					results.push(['header'], headers[id]);
 				}
+				results.push(['pokemon', id as ID]);
 			}
 		} else { //Default (canon) tier headers
 			for (let id in BattlePokedex) {
