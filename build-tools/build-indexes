@@ -91,9 +91,13 @@ function requireNoCache(pathSpec) {
 	const usedIDs = [];
 	function generateAlias(id, name, type, metagame = undefined) {
 		usedIDs.push(id);
-		if(metagame && id.endsWith(metagame)){
-			index.push(metagame + id.slice(0, -(metagame.length)) + ' ' + type + ' ' + id + ' 0');
-			return; //A non-unique entry will already have the aliases of the original
+		if(metagame){
+			if(id.endsWith(metagame)){ //Non-unique
+				index.push(metagame + id.slice(0, -(metagame.length)) + ' ' + type + ' ' + id + ' 0');
+				return; //A non-unique entry will already have the aliases of the original
+			} else { //Unique
+				index.push(metagame + id + ' ' + type);
+			}
 		}
 		if (name) {
 			let i = name.lastIndexOf(' ');
@@ -1387,9 +1391,9 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
 				
 				//Link up family and form changes to point to the mod's version of them too
-				if(pokemon.prevo){
-					const linkID = toID(pokemon.prevo);
-					pokemon.prevo += "~" + toID(modName);
+				if(entry.prevo){
+					const linkID = toID(entry.prevo);
+					uniqueEntry.prevo += "~" + toID(modName);
 					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 							linkID += toID(modName);
@@ -1408,10 +1412,10 @@ process.stdout.write("Building `data/pokedex.js`... ");
 						}
 					}
 				}
-				if(pokemon.evos){
-					for(let linked in pokemon.evos){
-						const linkID = toID(pokemon.evos[linked]);
-						pokemon.evos[linked] += "~" + toID(modName);
+				if(entry.evos){
+					for(let linked in entry.evos){
+						const linkID = toID(entry.evos[linked]);
+						uniqueEntry.evos[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 							linkID += toID(modName);
@@ -1431,9 +1435,9 @@ process.stdout.write("Building `data/pokedex.js`... ");
 						}
 					}
 				}
-				if(pokemon.baseSpecies){
-					const linkID = toID(pokemon.baseSpecies);
-					pokemon.baseSpecies += "~" + toID(modName);
+				if(entry.baseSpecies){
+					const linkID = toID(entry.baseSpecies);
+					uniqueEntry.baseSpecies += "~" + toID(modName);
 					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 						linkID += toID(modName);
@@ -1453,10 +1457,10 @@ process.stdout.write("Building `data/pokedex.js`... ");
 						}
 					}
 				}
-				if(pokemon.otherFormes){
-					for(let linked in pokemon.otherFormes){
-						const linkID = toID(pokemon.otherFormes[linked]);
-						pokemon.otherFormes[linked] += "~" + toID(modName);
+				if(entry.otherFormes){
+					for(let linked in entry.otherFormes){
+						const linkID = toID(entry.otherFormes[linked]);
+						uniqueEntry.otherFormes[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 							linkID += toID(modName);
