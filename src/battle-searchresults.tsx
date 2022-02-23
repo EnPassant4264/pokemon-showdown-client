@@ -44,10 +44,6 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 		const search = this.props.search;
 		const pokemon = search.dex.getSpecies(id);
 		if (!pokemon) return <li class="result">Unrecognized pokemon</li>;
-		
-		if(pokemon.otherMetagame){//Remove the metagame name from the Pokemon before displaying
-			pokemon.name = pokemon.name.slice(0, pokemon.name.indexOf("~"));
-		}
 
 		let tagStart = (pokemon.forme ? pokemon.name.length - pokemon.forme.length - 1 : 0);
 
@@ -110,6 +106,15 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 	}
 
 	renderName(name: string, matchStart: number, matchEnd: number, tagStart?: number) {
+		if(name.indexOf("~") > 0){ //Remove the metagame name from the Pokemon before displaying
+			name = name.slice(0, name.indexOf("~"));
+			if(matchStart > name.length || !matchEnd || matchEnd > name.length) { //and if the search was matching the metagame, just return the name
+				if (!tagStart) return name;
+				return [
+					name.slice(0, tagStart), <small>{name.slice(tagStart)}</small>,
+				];
+			}
+		}
 		if (!matchEnd) {
 			if (!tagStart) return name;
 			return [

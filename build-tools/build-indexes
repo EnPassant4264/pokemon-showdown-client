@@ -89,8 +89,12 @@ function requireNoCache(pathSpec) {
 
 	// generate aliases
 	const usedIDs = [];
-	function generateAlias(id, name, type) {
+	function generateAlias(id, name, type, metagame = undefined) {
 		usedIDs.push(id);
+		if(metagame && id.endsWith(metagame)){
+			index.push(metagame + id.slice(0, -(metagame.length)) + ' ' + type + ' ' + id + ' 0');
+			return; //A non-unique entry will already have the aliases of the original
+		}
 		if (name) {
 			let i = name.lastIndexOf(' ');
 			if (i < 0) i = name.lastIndexOf('-');
@@ -109,6 +113,11 @@ function requireNoCache(pathSpec) {
 				index.push('alolan' + toID(name.slice(0, -6)) + ' ' + type + ' ' + id + ' 0');
 				return;
 			}
+			if (name.endsWith('-Galar')) {
+				index.push('galarian' + toID(name.slice(0, -6)) + ' ' + type + ' ' + id + ' 0');
+				return;
+			}
+			
 			let oldI = i;
 			if (name === 'Bronzong') i = 4;
 			if (name === 'Charizard') i = 5;
@@ -210,11 +219,12 @@ function requireNoCache(pathSpec) {
 			const modDex = Dex.mod(modid);
 			for (let id in modDex.data[key]) {
 				if (!modDex.data[key][id]) continue;
-				if (!usedIDs.includes(toID(id)) && id in Dex.data.TypeChart === false) {
+				if (id in Dex.data.TypeChart === false) {
+					const name = modDex.data[key][id].name;
+					if(usedIDs.includes(toID(id))) id += modid; //Create unique ID for duplicates - this same disambiguation is done later in pokedex building
 					index.push(toID(id) + ' ' + infoTable[key]);
 					usedIDs.push(toID(id));
-					const name = modDex.data[key][id].name;
-					if (name) generateAlias(id, name, infoTable[key]);
+					if (name) generateAlias(id, name, infoTable[key], modid);
 				}
 			}
 		}
@@ -1360,19 +1370,112 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		for (let id in modDex) {
 			const entry = modDex[id];
-			if(Pokedex[id] && Pokedex[id].name){ //Pokemon already exists, wasn't erased from existence, and needs a unique ID for this mod's iteration of it.
-				const uniqueID = id + modName.toLowerCase();
+			if(Pokedex[id]){ //Pokemon already exists and needs a unique ID for this mod's iteration of it.
+				if(!entry.name) continue; //Pokemon was erased from existence, ignore it
+				const originalEntry = Pokedex[id];
+				const uniqueID = id + toID(modName);
 				let uniqueEntry = entry;
 				
 				//Pull and overwrite inherited information
 				if(entry.inherit){
 					delete uniqueEntry.inherit;
-					for (const key in Pokedex[id]) {
+					for (const key in originalEntry) {
 						if (key in entry) continue;
-						uniqueEntry[key] = Pokedex[id][key];
+						uniqueEntry[key] = originalEntry[key];
 					}
 				}
 				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
+				
+				//Link up family and form changes to point to the mod's version of them too
+				if(pokemon.prevo){
+					const linkID = toID(pokemon.prevo);
+					pokemon.prevo += "~" + toID(modName);
+					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
+						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
+							linkID += toID(modName);
+							uniqueModDex[linkID].evos[uniqueModDex[linkID].evos.indexOf(entry.name)] = uniqueEntry.name;
+						} //else: Link will be made when linked Mon's entry is made
+					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
+						let linkEntry = Pokedex[linkID];
+						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						uniqueModDex[linkID + toID(modName)] = linkEntry;
+						if(modFormats[linkID]){
+							updateFormats = true;
+							const formatsEntry = modFormats[linkID];
+							if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
+							if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+							uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
+						}
+					}
+				}
+				if(pokemon.evos){
+					for(let linked in pokemon.evos){
+						const linkID = toID(pokemon.evos[linked]);
+						pokemon.evos[linked] += "~" + toID(modName);
+						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
+							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
+							linkID += toID(modName);
+								uniqueModDex[linkID].prevo = uniqueEntry.name;
+							} //else: Link will be made when linked Mon's entry is made
+						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
+							let linkEntry = Pokedex[linkID];
+							linkEntry.prevo = uniqueEntry.name;
+							uniqueModDex[linkID + toID(modName)] = linkEntry;
+							if(modFormats[linkID]){
+								updateFormats = true;
+								const formatsEntry = modFormats[linkID];
+								if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
+								if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+								uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
+							}
+						}
+					}
+				}
+				if(pokemon.baseSpecies){
+					const linkID = toID(pokemon.baseSpecies);
+					pokemon.baseSpecies += "~" + toID(modName);
+					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
+						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
+						linkID += toID(modName);
+						const formeIndex = uniqueModDex[linkID].otherFormes.indexOf(entry.name);
+							uniqueModDex[linkID].otherFormes[uniqueModDex[linkID].otherFormes.indexOf(entry.name)] = uniqueEntry.name;
+						} //else: Link will be made when linked Mon's entry is made
+					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
+						let linkEntry = Pokedex[linkID];
+						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						uniqueModDex[linkID + toID(modName)] = linkEntry;
+						if(modFormats[linkID]){
+							updateFormats = true;
+							const formatsEntry = modFormats[linkID];
+							if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
+							if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+							uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
+						}
+					}
+				}
+				if(pokemon.otherFormes){
+					for(let linked in pokemon.otherFormes){
+						const linkID = toID(pokemon.otherFormes[linked]);
+						pokemon.otherFormes[linked] += "~" + toID(modName);
+						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
+							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
+							linkID += toID(modName);
+								uniqueModDex[linkID].baseSpecies = uniqueEntry.name;
+							} //else: Link will be made when linked Mon's entry is made
+						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
+							let linkEntry = Pokedex[linkID];
+							linkEntry.baseSpecies = uniqueEntry.name;
+							uniqueModDex[linkID + toID(modName)] = linkEntry;
+							if(modFormats[linkID]){
+								updateFormats = true;
+								const formatsEntry = modFormats[linkID];
+								if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
+								if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+								uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
+							}
+						}
+					}
+				}
 				
 				//Check for formats
 				if(modFormats[id]){
@@ -1384,7 +1487,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				}
 				//Add OM information
 				uniqueEntry.tier = modAbb;
-				uniqueEntry.otherMetagame = modName;
+				//uniqueEntry.otherMetagame = modName;
 				
 				uniqueModDex[uniqueID] = uniqueEntry;
 				
