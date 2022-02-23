@@ -1348,12 +1348,12 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
 		var modDex = '';
-		var pathDex = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
+		var pathDex = 'C:/Users/Owner/Documents/GitHub/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
 		if (fs.existsSync(pathDex)) {
 			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
 		}
 		var modFormats = '';
-		var pathFormats = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
+		var pathFormats = 'C:/Users/Owner/Documents/GitHub/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
 		if (fs.existsSync(pathFormats)) {
 			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
 		}
@@ -1514,14 +1514,14 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		Object.assign(Pokedex, uniqueModDex);
 		
 		//Lastly, update the formats-data and learnsets with the unique IDs if necessary.
-		if(updateFormats) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData = uniqueModFormats;
-		//if(updateLearnsets) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets = uniqueModLearnsets;
+		if(updateFormats) requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData = uniqueModFormats;
+		//if(updateLearnsets) requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets = uniqueModLearnsets;
 	})
 	const buf = 'exports.BattlePokedex = ' + es3stringify(Pokedex) + ';';
 	fs.writeFileSync('data/pokedex.js', buf);
 	fs.writeFileSync('data/pokedex.json', JSON.stringify(Pokedex));
-	const mbuf = 'exports.MetagameHeaders = ' + es3stringify(mgHeaders) + ';';
-	fs.writeFileSync('../data/metagame-headers.js', mbuf);
+	/*const mbuf = 'exports.MetagameHeaders = ' + es3stringify(mgHeaders) + ';';
+	fs.writeFileSync('../data/metagame-headers.js', mbuf);*/
 }
 
 console.log("DONE");
