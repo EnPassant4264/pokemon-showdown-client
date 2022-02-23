@@ -1348,12 +1348,12 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
 		var modDex = '';
-		var pathDex = '../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
+		var pathDex = 'C:/Users/Owner/Documents/GitHub/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
 		if (fs.existsSync(pathDex)) {
 			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
 		}
 		var modFormats = '';
-		var pathFormats = '../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
+		var pathFormats = 'C:/Users/Owner/Documents/GitHub/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
 		if (fs.existsSync(pathFormats)) {
 			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
 		}
