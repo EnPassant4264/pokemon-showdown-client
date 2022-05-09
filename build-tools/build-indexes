@@ -219,17 +219,18 @@ function requireNoCache(pathSpec) {
 
 	const infoTable = {Pokedex: 'pokemon', Moves: 'move', Items: 'item', Abilities: 'ability', TypeChart: 'type'};
 	for (const modid in ModConfig) {
-		if (modid == 'sylvemonstest' || modid == 'perfectgalar' || modid == 'megarevolution' || modid == 'pkmnybv2' || modid == 'feuu') continue;
-		for (const key in infoTable) {
-			const modDex = Dex.mod(modid);
-			for (let id in modDex.data[key]) {
-				if (!modDex.data[key][id]) continue;
-				if (id in Dex.data.TypeChart === false) {
-					const name = modDex.data[key][id].name;
-					if(usedIDs.includes(toID(id))) id += modid; //Create unique ID for duplicates - this same disambiguation is done later in pokedex building
-					index.push(toID(id) + ' ' + infoTable[key]);
-					usedIDs.push(toID(id));
-					if (name) generateAlias(id, name, infoTable[key], modid);
+			if (modid == 'sylvemonstest' || modid == 'perfectgalar' || modid == 'megarevolution' || modid == 'pkmnybv2' || modid == 'feuu') {
+			for (const key in infoTable) {
+				const modDex = Dex.mod(modid);
+				for (let id in modDex.data[key]) {
+					if (!modDex.data[key][id]) continue;
+					if (id in Dex.data.TypeChart === false) {
+						const name = modDex.data[key][id].name;
+						if(usedIDs.includes(toID(id))) id += modid; //Create unique ID for duplicates - this same disambiguation is done later in pokedex building
+						index.push(toID(id) + ' ' + infoTable[key]);
+						usedIDs.push(toID(id));
+						if (name) generateAlias(id, name, infoTable[key], modid);
+					}
 				}
 			}
 		}
