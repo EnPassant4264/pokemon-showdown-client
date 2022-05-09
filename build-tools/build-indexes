@@ -219,6 +219,7 @@ function requireNoCache(pathSpec) {
 
 	const infoTable = {Pokedex: 'pokemon', Moves: 'move', Items: 'item', Abilities: 'ability', TypeChart: 'type'};
 	for (const modid in ModConfig) {
+		if (modid != 'sylvemonstest' && modid != 'perfectgalar' && modid != 'megarevolution' && modid != 'pkmnyb' && modid != 'feuu') continue;
 		for (const key in infoTable) {
 			const modDex = Dex.mod(modid);
 			for (let id in modDex.data[key]) {
@@ -235,7 +236,6 @@ function requireNoCache(pathSpec) {
 	}
 
 	index.sort();
-	console.log('done with index.sort()')
 
 	// manually rearrange
 	index[index.indexOf('grass type')] = 'grass egggroup';
@@ -258,8 +258,6 @@ function requireNoCache(pathSpec) {
 
 	index[index.indexOf('ditto pokemon')] = 'ditto egggroup';
 	index[index.indexOf('ditto egggroup')] = 'ditto pokemon';
-	
-	console.log('done with egg groups')
 
 
 	let BattleSearchIndex = index.map(x => {
