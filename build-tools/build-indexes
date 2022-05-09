@@ -234,6 +234,7 @@ function requireNoCache(pathSpec) {
 			}
 		}
 	}
+	// wtf
 
 	index.sort();
 
