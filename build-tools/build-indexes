@@ -9,7 +9,7 @@ const rootDir = path.resolve(__dirname, '..');
 process.chdir(rootDir);
 
 if (!fs.existsSync('data/pokemon-showdown')) {
-	child_process.execSync('git clone https://github.com/EnPassant4264/DH.git pokemon-showdown', {
+	child_process.execSync('git clone https://github.com/Petuuuhhh/DH.git pokemon-showdown', {
 		cwd: 'data',
 	});
 }
@@ -235,6 +235,7 @@ function requireNoCache(pathSpec) {
 	}
 
 	index.sort();
+	console.log('done with index.sort()')
 
 	// manually rearrange
 	index[index.indexOf('grass type')] = 'grass egggroup';
@@ -257,6 +258,8 @@ function requireNoCache(pathSpec) {
 
 	index[index.indexOf('ditto pokemon')] = 'ditto egggroup';
 	index[index.indexOf('ditto egggroup')] = 'ditto pokemon';
+	
+	console.log('done with egg groups')
 
 
 	let BattleSearchIndex = index.map(x => {
@@ -267,6 +270,8 @@ function requireNoCache(pathSpec) {
 		}
 		return x;
 	});
+	
+	console.log('done with BattleSearchIndex')
 
 	let BattleSearchIndexOffset = BattleSearchIndex.map((entry, i) => {
 		const id = entry[0];
@@ -290,6 +295,8 @@ function requireNoCache(pathSpec) {
 		if (nonAlnum) return res;
 		return '';
 	});
+	
+	console.log('done with BattleSearchIndexOffset')
 
 	let BattleSearchCountIndex = {};
 	for (const type in Dex.data.TypeChart) {
@@ -1308,7 +1315,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 
 {
 	//Load up metagame headers for default search
-	//const mgHeaders = requireNoCache('../data/metagame-headers.ts').MetagameHeaders;
+	var mgHeaders = requireNoCache('../data/metagame-headers.ts').MetagameHeaders;
 	
 	//Entries for regular Pokemon
 	var Pokedex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
@@ -1352,12 +1359,12 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
 		var modDex = '';
-		var pathDex = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
+		var pathDex = 'C:/Users/Owner/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
 		if (fs.existsSync(pathDex)) {
 			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
 		}
 		var modFormats = '';
-		var pathFormats = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
+		var pathFormats = 'C:/Users/Owner/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
 		if (fs.existsSync(pathFormats)) {
 			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
 		}
@@ -1392,16 +1399,17 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				
 				//Link up family and form changes to point to the mod's version of them too
 				if(entry.prevo){
-					const linkID = toID(entry.prevo);
+					var linkID = toID(entry.prevo);
 					uniqueEntry.prevo += "~" + toID(modName);
 					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 							linkID += toID(modName);
-							uniqueModDex[linkID].evos[uniqueModDex[linkID].evos.indexOf(entry.name)] = uniqueEntry.name;
+							if (uniqueModDex[linkID].evos) uniqueModDex[linkID].evos[uniqueModDex[linkID].evos.indexOf(entry.name)] = uniqueEntry.name;
 						} //else: Link will be made when linked Mon's entry is made
 					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
 						let linkEntry = Pokedex[linkID];
-						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						if (linkEntry == undefined) continue;
+						if (linkEntry.evos) linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
 						uniqueModDex[linkID + toID(modName)] = linkEntry;
 						if(modFormats[linkID]){
 							updateFormats = true;
@@ -1414,7 +1422,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				}
 				if(entry.evos){
 					for(let linked in entry.evos){
-						const linkID = toID(entry.evos[linked]);
+						var linkID = toID(entry.evos[linked]);
 						uniqueEntry.evos[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
@@ -1423,6 +1431,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 							} //else: Link will be made when linked Mon's entry is made
 						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
 							let linkEntry = Pokedex[linkID];
+							if (linkEntry == undefined) continue;
 							linkEntry.prevo = uniqueEntry.name;
 							uniqueModDex[linkID + toID(modName)] = linkEntry;
 							if(modFormats[linkID]){
@@ -1436,17 +1445,21 @@ process.stdout.write("Building `data/pokedex.js`... ");
 					}
 				}
 				if(entry.baseSpecies){
-					const linkID = toID(entry.baseSpecies);
+					var linkID = toID(entry.baseSpecies);
 					uniqueEntry.baseSpecies += "~" + toID(modName);
 					if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 						if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
-						linkID += toID(modName);
-						const formeIndex = uniqueModDex[linkID].otherFormes.indexOf(entry.name);
-							uniqueModDex[linkID].otherFormes[uniqueModDex[linkID].otherFormes.indexOf(entry.name)] = uniqueEntry.name;
+							linkID += toID(modName);
+							var formeIndex = '';
+							if (uniqueModDex[linkID].otherFormes) {
+								formeIndex = uniqueModDex[linkID].otherFormes.indexOf(entry.name);
+								uniqueModDex[linkID].otherFormes[uniqueModDex[linkID].otherFormes.indexOf(entry.name)] = uniqueEntry.name;
+							}
 						} //else: Link will be made when linked Mon's entry is made
 					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
 						let linkEntry = Pokedex[linkID];
-						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						if (linkEntry == undefined) continue;
+						if (linkEntry.evos) linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
 						uniqueModDex[linkID + toID(modName)] = linkEntry;
 						if(modFormats[linkID]){
 							updateFormats = true;
@@ -1459,7 +1472,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				}
 				if(entry.otherFormes){
 					for(let linked in entry.otherFormes){
-						const linkID = toID(entry.otherFormes[linked]);
+						var linkID = toID(entry.otherFormes[linked]);
 						uniqueEntry.otherFormes[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
@@ -1468,6 +1481,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 							} //else: Link will be made when linked Mon's entry is made
 						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
 							let linkEntry = Pokedex[linkID];
+							if (linkEntry == undefined) continue;
 							linkEntry.baseSpecies = uniqueEntry.name;
 							uniqueModDex[linkID + toID(modName)] = linkEntry;
 							if(modFormats[linkID]){
@@ -1518,14 +1532,14 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		Object.assign(Pokedex, uniqueModDex);
 		
 		//Lastly, update the formats-data and learnsets with the unique IDs if necessary.
-		if(updateFormats) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData = uniqueModFormats;
+		if(updateFormats) requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData = uniqueModFormats;
 		//if(updateLearnsets) requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets = uniqueModLearnsets;
 	})
 	const buf = 'exports.BattlePokedex = ' + es3stringify(Pokedex) + ';';
 	fs.writeFileSync('data/pokedex.js', buf);
 	fs.writeFileSync('data/pokedex.json', JSON.stringify(Pokedex));
 	const mbuf = 'exports.MetagameHeaders = ' + es3stringify(mgHeaders) + ';';
-	fs.writeFileSync('../data/metagame-headers.js', mbuf);
+	fs.writeFileSync('data/metagame-headers.ts', mbuf);
 }
 
 console.log("DONE");
