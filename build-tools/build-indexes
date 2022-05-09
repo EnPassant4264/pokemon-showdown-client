@@ -96,10 +96,10 @@ function requireNoCache(pathSpec) {
 				index.push(metagame + id.slice(0, -(metagame.length)) + ' ' + type + ' ' + id + ' 0');
 				return; //A non-unique entry will already have the aliases of the original
 			} else { //Unique
-				index.push(metagame + id + ' ' + type);
+				index.push(metagame + id + ' ' + type + ' ' + id + ' 0');
 			}
 		}
-		if (name) {
+		else if (name) {
 			let i = name.lastIndexOf(' ');
 			if (i < 0) i = name.lastIndexOf('-');
 			if (name.endsWith('-Mega-X') || name.endsWith('-Mega-Y')) {
@@ -219,7 +219,7 @@ function requireNoCache(pathSpec) {
 
 	const infoTable = {Pokedex: 'pokemon', Moves: 'move', Items: 'item', Abilities: 'ability', TypeChart: 'type'};
 	for (const modid in ModConfig) {
-		if (modid != 'abismons' && modid != 'sylvemonstest' && modid != 'perfectgalar' && modid != 'megarevolution' && modid != 'pkmnybv2' && modid != 'feuu') continue;
+		if (modid != 'sylvemonstest' && modid != 'perfectgalar' && modid != 'megarevolution' && modid != 'pkmnybv2' && modid != 'feuu') continue;
 		for (const key in infoTable) {
 			const modDex = Dex.mod(modid);
 			for (let id in modDex.data[key]) {
@@ -266,7 +266,6 @@ function requireNoCache(pathSpec) {
 			x[3] = Number(x[3]);
 			x[2] = index.indexOf(x[2] + ' ' + x[1]);
 		}
-		// console.log(x);
 		return x;
 	});
 
@@ -1377,10 +1376,10 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		for (let id in modDex) {
 			const entry = modDex[id];
 			if(Pokedex[id]){ //Pokemon already exists and needs a unique ID for this mod's iteration of it.
-				if(!entry.name) continue; //Pokemon was erased from existence, ignore it
+				if(!entry.name) entry.name = Pokedex[id].name; //Pokemon was erased from existence, ignore it
 				const originalEntry = Pokedex[id];
 				const uniqueID = id + toID(modName);
-				let uniqueEntry = entry;
+				var uniqueEntry = entry;
 				
 				//Pull and overwrite inherited information
 				if(entry.inherit){
@@ -1468,7 +1467,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				if(entry.otherFormes){
 					for(let linked in entry.otherFormes){
 						var linkID = toID(entry.otherFormes[linked]);
-						uniqueEntry.otherFormes[linked] += "~" + toID(modName);
+						if (typeof uniqueEntry.otherFormes == 'object') uniqueEntry.otherFormes[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
 							linkID += toID(modName);
