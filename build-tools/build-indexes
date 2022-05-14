@@ -1329,7 +1329,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		if(['gen1','gen2','gen3','gen4','gen5','gen6','gen7', 'letsgo'].includes(folder)) return;
 		
 		//Start with mod info if it's there
-		var modInfo = '';
+		let modInfo = '';
 		/*fs.stat('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt', function(err, stat)) {
 			if(err == null) {
 				modInfo = fs.readFileSync('../data/pokemon-showdown/.data-dist/mods/' + folder + '/modinfo.txt')?.split('/n');
@@ -1351,21 +1351,21 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		}
 		
 		//Pull anything using a Pokemon's ID, because we're about to check for uniqueness
-		var modDex = '';
-		var pathDex = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
+		let modDex = '';
+		let pathDex = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js';
 		if (fs.existsSync(pathDex)) {
 			modDex = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'pokedex.js').Pokedex;
 		}
-		var modFormats = '';
-		var pathFormats = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
+		let modFormats = '';
+		let pathFormats = 'C:/Users/pswan/Downloads/pokemon-showdown-client/data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js';
 		if (fs.existsSync(pathFormats)) {
 			modFormats = requireNoCache('../data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'formats-data.js').FormatsData;
 		}
 		//const modLearnsets = requireNoCache('data/pokemon-showdown/.data-dist/mods/' + folder + "/" + 'learnsets.js').Learnsets;
 		
 		//Places where final IDs are stored. These are written to regardless, because even one ID change means we need every single entry in order to overwrite the original file.
-		var uniqueModDex = {};
-		var uniqueModFormats = {};
+		let uniqueModDex = {};
+		let uniqueModFormats = {};
 		//const uniqueModLearnsets: {[speciesid: string]: ModdedLearnsetData} = {};
 		
 		//Used at the end if the two non-Dex things above are necessary to change.
@@ -1375,22 +1375,136 @@ process.stdout.write("Building `data/pokedex.js`... ");
 		for (let id in modDex) {
 			const entry = modDex[id];
 			if(Pokedex[id]){ //Pokemon already exists and needs a unique ID for this mod's iteration of it.
-				if(!entry.name) continue; //Pokemon was erased from existence, ignore it
-				const originalEntry = Pokedex[id];
+				let base = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
 				const uniqueID = id + toID(modName);
 				let uniqueEntry = entry;
 				
 				//Pull and overwrite inherited information
 				if(entry.inherit){
 					delete uniqueEntry.inherit;
-					for (const key in originalEntry) {
+					for (const key in base) {
 						if (key in entry) continue;
-						uniqueEntry[key] = originalEntry[key];
+						uniqueEntry[key] = base[key];
 					}
 				}
+				if(!entry.name || entry.isNonstandard === "Past") continue; //Ignore Pokemon not actually in the mod
 				uniqueEntry.name += "~" + modName; //~ isn't used anywhere, using a unique character will let the search identify that it's not a real form.
 				
 				//Link up family and form changes to point to the mod's version of them too
+				if(uniqueEntry.prevo) uniqueEntry.prevo += "~" + toID(modName);
+				if(uniqueEntry.evos) uniqueEntry.evos.forEach((evo) -> {evo += "~" + toID(modName)});
+				if(uniqueEntry.baseSpecies) uniqueEntry.baseSpecies += "~" + toID(modName);
+				if(uniqueEntry.otherFormes) uniqueEntry.otherFormes.forEach((forme) -> {forme += "~" + toID(modName)});
+				
+				//Check the rest of the family tree for entries that need a version created to link back up
+				const prevo = (base.prevo) ? this.dex.getSpecies(base.prevo) : undefined;
+				if(prevo){
+					if(prevo.prevo) base = this.dex.getSpecies(prevo.prevo);
+					else base = prevo;
+				}
+				if(base.name !== base.baseSpecies) base = this.dex.getSpecies(base.baseSpecies);
+				//console.log("Creating " + base.name + " family");
+				if(!uniqueModDex[toID(base.name + toID(modName))]){ //Only do this once per family
+					const family: Species[] = []; //First, make the family
+					family.push(base.name);
+					if(base.evos){
+						for(let evo of base.evos){
+							if(!family.includes(evo)){
+								//console.log("Adding " + evo);
+								family.push(evo);
+								const evoMon = this.dex.getSpecies(evo);
+								if(evoMon.evos){
+									for(let evoFinal of evoMon.evos){
+										//console.log("Adding " + evoFinal);
+										family.push(evoFinal);
+										const evoFinalMon = this.dex.getSpecies(evoFinal);
+										if(evoFinalMon.otherFormes){
+											for(let evoFinalForme of evoFinalMon.otherFormes){
+												//console.log("Adding " + evoFinalForme);
+												family.push(evoFinalForme);
+											}
+										}
+									}
+								}
+								if(evoMon.otherFormes){
+									for(let evoForme of evoMon.otherFormes) {
+										if(!family.includes(evoForme)){
+											//console.log("Adding " + evoForme);
+											family.push(evoForme);
+											const evoMonForme = this.dex.getSpecies(evoForme);
+											if(evoMonForme.evos){
+												for(let evoFormeFinal of evoMonForme.evos){
+													if(!family.includes(evoFormeFinal)){
+														//console.log("Adding " + evoFormeFinal);
+														family.push(evoFormeFinal);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					} if (base.otherFormes){
+						for(let forme of base.otherFormes){
+							//console.log("Adding " + forme);
+							family.push(forme);
+							const formeMon = this.dex.getSpecies(forme);
+							if(formeMon.evos){
+								for(let formeEvo of formeMon.evos){
+									if(!family.includes(formeEvo)){
+										//console.log("Adding " + formeEvo);
+										family.push(formeEvo);
+										const formeEvoMon = this.dex.getSpecies(formeEvo);
+										if(formeEvoMon.evos){
+											for(let formeEvoFinal of formeEvoMon.evos)
+												if(!family.includes(formeEvoFinal)){
+													//console.log("Adding " + formeEvoFinal);
+													family.push(formeEvoFinal);
+												}
+										}
+										if(formeEvoMon.otherFormes){
+											for(let formeEvoForme of formeEvoMon.otherFormes)
+												if(!family.includes(formeEvoForme)){
+													//console.log("Adding " + formeEvoForme);
+													family.push(formeEvoForme);
+												}
+											//There are currently no cases of a Pokemon only evolving in an alternate form into a Pokemon that itself only evolves in an alternate form. Thank goodness.
+										}
+									}
+								}
+							}
+						}
+					}
+					//Now make entries where needed
+					for(pokemon in family){
+						const linkID = toID(pokemon);
+						if(!modDex[linkID]){ //A unique entry for this Mon won't be made, so we have to make one so it can link to the family
+							const linkEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
+							linkEntry.name += "~" + modName;
+							if(linkEntry.prevo) linkEntry.prevo += "~" + modName;
+							if(linkEntry.evos) linkEntry.evos.forEach((evo) -> {evo += "~" + modName;});
+							if(linkEntry.baseSpecies) linkEntry.baseSpecies += "~" + modName;
+							if(linkEntry.otherFormes){
+								linkEntry.otherFormes.forEach((forme) -> {forme += "~" + modName;});
+								linkEntry.formeOrder.forEach((forme) -> {
+								if(linkEntry.otherFormes.includes(forme)) forme += "~" + modName;
+								});
+							}
+							if(modFormats[linkID]){ //Link up formats and learnsets while we're here
+								updateFormats = true;
+								const formatsEntry = modFormats[linkID];
+								if(!formatsEntry) continue;
+								if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
+								if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+								uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
+							}
+							uniqueModDex[linkID + toID(modName)] = linkEntry;
+						}
+					}
+				}
+				
+				/*//Link up family and form changes to point to the mod's version of them too
 				if(entry.prevo){
 					const linkID = toID(entry.prevo);
 					uniqueEntry.prevo += "~" + toID(modName);
@@ -1400,14 +1514,14 @@ process.stdout.write("Building `data/pokedex.js`... ");
 							uniqueModDex[linkID].evos[uniqueModDex[linkID].evos.indexOf(entry.name)] = uniqueEntry.name;
 						} //else: Link will be made when linked Mon's entry is made
 					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
-						let linkEntry = Pokedex[linkID];
-						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
-						uniqueModDex[linkID + toID(modName)] = linkEntry;
+						let uniqueEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
+						uniqueEntry.evos[uniqueEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						uniqueModDex[linkID + toID(modName)] = uniqueEntry;
 						if(modFormats[linkID]){
 							updateFormats = true;
 							const formatsEntry = modFormats[linkID];
-							if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
-							if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+							if (formatsEntry.isNonstandard) uniqueEntry.isNonstandard = formatsEntry.isNonstandard;
+							if (formatsEntry.unreleasedHidden) uniqueEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
 							uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
 						}
 					}
@@ -1418,18 +1532,18 @@ process.stdout.write("Building `data/pokedex.js`... ");
 						uniqueEntry.evos[linked] += "~" + toID(modName);
 						if(modDex[linkID]){ //Linked Mon will have a unique entry made for this dex
 							if(uniqueModDex[linkID + toID(modName)]){ //Linked Mon's entry already exists
-							linkID += toID(modName);
+								linkID += toID(modName);
 								uniqueModDex[linkID].prevo = uniqueEntry.name;
 							} //else: Link will be made when linked Mon's entry is made
 						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
-							let linkEntry = Pokedex[linkID];
-							linkEntry.prevo = uniqueEntry.name;
-							uniqueModDex[linkID + toID(modName)] = linkEntry;
+							let uniqueEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
+							uniqueEntry.prevo = uniqueEntry.name;
+							uniqueModDex[linkID + toID(modName)] = uniqueEntry;
 							if(modFormats[linkID]){
 								updateFormats = true;
 								const formatsEntry = modFormats[linkID];
-								if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
-								if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+								if (formatsEntry.isNonstandard) uniqueEntry.isNonstandard = formatsEntry.isNonstandard;
+								if (formatsEntry.unreleasedHidden) uniqueEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
 								uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
 							}
 						}
@@ -1445,14 +1559,14 @@ process.stdout.write("Building `data/pokedex.js`... ");
 							uniqueModDex[linkID].otherFormes[uniqueModDex[linkID].otherFormes.indexOf(entry.name)] = uniqueEntry.name;
 						} //else: Link will be made when linked Mon's entry is made
 					} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
-						let linkEntry = Pokedex[linkID];
-						linkEntry.evos[linkEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
-						uniqueModDex[linkID + toID(modName)] = linkEntry;
+						let uniqueEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
+						uniqueEntry.evos[uniqueEntry.evos.indexOf(entry.name)] = uniqueEntry.name;
+						uniqueModDex[linkID + toID(modName)] = uniqueEntry;
 						if(modFormats[linkID]){
 							updateFormats = true;
 							const formatsEntry = modFormats[linkID];
-							if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
-							if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+							if (formatsEntry.isNonstandard) uniqueEntry.isNonstandard = formatsEntry.isNonstandard;
+							if (formatsEntry.unreleasedHidden) uniqueEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
 							uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
 						}
 					}
@@ -1467,24 +1581,25 @@ process.stdout.write("Building `data/pokedex.js`... ");
 								uniqueModDex[linkID].baseSpecies = uniqueEntry.name;
 							} //else: Link will be made when linked Mon's entry is made
 						} else { //A unique entry for this Mon won't be made, so we have to make one so it can link to this version
-							let linkEntry = Pokedex[linkID];
-							linkEntry.baseSpecies = uniqueEntry.name;
-							uniqueModDex[linkID + toID(modName)] = linkEntry;
+							let uniqueEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
+							uniqueEntry.baseSpecies = uniqueEntry.name;
+							uniqueModDex[linkID + toID(modName)] = uniqueEntry;
 							if(modFormats[linkID]){
 								updateFormats = true;
 								const formatsEntry = modFormats[linkID];
-								if (formatsEntry.isNonstandard) linkEntry.isNonstandard = formatsEntry.isNonstandard;
-								if (formatsEntry.unreleasedHidden) linkEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
+								if (formatsEntry.isNonstandard) uniqueEntry.isNonstandard = formatsEntry.isNonstandard;
+								if (formatsEntry.unreleasedHidden) uniqueEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
 								uniqueModFormats[linkID + toID(modName)] = modFormats[linkID];
 							}
 						}
 					}
-				}
+				}*/
 				
 				//Check for formats
 				if(modFormats[id]){
 					updateFormats = true;
 					const formatsEntry = modFormats[id];
+					if(!formatsEntry) continue;
 					if (formatsEntry.isNonstandard) uniqueEntry.isNonstandard = formatsEntry.isNonstandard;
 					if (formatsEntry.unreleasedHidden) uniqueEntry.unreleasedHidden = formatsEntry.unreleasedHidden;
 					uniqueModFormats[uniqueID] = modFormats[id];
@@ -1505,6 +1620,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 				if (modFormats[id]) { //Add formatsdata as usual
 					// console.log('formatsentry:' + id);
 					const formatsEntry = modFormats[id];
+					if(!formatsEntry) continue; //Please give your new Mons tiers, guys...
 					if (formatsEntry.tier) entry.tier = formatsEntry.tier;
 					if (formatsEntry.isNonstandard) entry.isNonstandard = formatsEntry.isNonstandard;
 					if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
