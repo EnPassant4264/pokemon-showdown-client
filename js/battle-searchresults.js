@@ -45,10 +45,6 @@ var search=this.props.search;
 var pokemon=search.dex.getSpecies(id);
 if(!pokemon)return preact.h("li",{"class":"result"},"Unrecognized pokemon");
 
-if(pokemon.otherMetagame){
-pokemon.name=pokemon.name.substring(0,pokemon.name.indexOf("~"));
-}
-
 var tagStart=pokemon.forme?pokemon.name.length-pokemon.forme.length-1:0;
 
 var stats=pokemon.baseStats;
@@ -110,6 +106,15 @@ preact.h("span",{"class":"col bstcol"},preact.h("em",null,"BST",preact.h("br",nu
 };_proto.
 
 renderName=function renderName(name,matchStart,matchEnd,tagStart){
+if(name.indexOf("~")>0){
+name=name.slice(0,name.indexOf("~"));
+if(matchStart>name.length||!matchEnd||matchEnd>name.length){
+if(!tagStart)return name;
+return[
+name.slice(0,tagStart),preact.h("small",null,name.slice(tagStart))];
+
+}
+}
 if(!matchEnd){
 if(!tagStart)return name;
 return[

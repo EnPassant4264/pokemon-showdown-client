@@ -861,9 +861,18 @@ if(!this.mod)return BattlePokedex;else
 return Object.assign({},BattleTeambuilderTable[this.mod].overrideDexInfo,BattlePokedex);
 };_proto3.
 getDefaultResults=function getDefaultResults(){
+var headers=undefined;
 var results=[];
+if(headers){
 for(var _id9 in BattlePokedex){
-switch(_id9){
+if(headers[_id9]){
+results.push(['header'],headers[_id9]);
+}
+results.push(['pokemon',_id9]);
+}
+}else{
+for(var _id10 in BattlePokedex){
+switch(_id10){
 case'bulbasaur':
 results.push(['header',"Generation 1"]);
 break;
@@ -891,11 +900,15 @@ break;
 case'missingno':
 results.push(['header',"Glitch"]);
 break;
-case'tomohawk':
+case'syclar':
 results.push(['header',"CAP"]);
+break;
+case'pokestarsmeargle':
+results.push(['header',"Pokestar"]);
 break;}
 
-results.push(['pokemon',_id9]);
+results.push(['pokemon',_id10]);
+}
 }
 return results;
 };_proto3.
@@ -1120,8 +1133,8 @@ return Object.assign({},BattleTeambuilderTable[this.mod].fullAbilityName,BattleA
 };_proto4.
 getDefaultResults=function getDefaultResults(){
 var results=[];
-for(var _id10 in BattleAbilities){
-results.push(['ability',_id10]);
+for(var _id11 in BattleAbilities){
+results.push(['ability',_id11]);
 }
 return results;
 };_proto4.
@@ -1275,15 +1288,15 @@ return Object.assign({},BattleTeambuilderTable[this.mod].overrideMoveInfo,Battle
 getDefaultResults=function getDefaultResults(){
 var results=[];
 results.push(['header',"Moves"]);
-for(var _id11 in BattleMovedex){
-switch(_id11){
+for(var _id12 in BattleMovedex){
+switch(_id12){
 case'paleowave':
 results.push(['header',"CAP moves"]);
 break;
 case'magikarpsrevenge':
 continue;}
 
-results.push(['move',_id11]);
+results.push(['move',_id12]);
 }
 return results;
 };_proto6.
@@ -1532,9 +1545,9 @@ learnsetid=this.nextLearnsetid(learnsetid,species.id);
 }
 if(sketch||isHackmons){
 if(isHackmons)moves=[];
-for(var _id12 in BattleMovedex){
-if(!format.startsWith('cap')&&(_id12==='paleowave'||_id12==='shadowstrike'))continue;
-var move=dex.getMove(_id12);
+for(var _id13 in BattleMovedex){
+if(!format.startsWith('cap')&&(_id13==='paleowave'||_id13==='shadowstrike'))continue;
+var move=dex.getMove(_id13);
 if(move.gen>dex.gen)continue;
 if(sketch){
 if(move.isMax||move.isZ||move.isNonstandard)continue;
@@ -1549,7 +1562,7 @@ moves.push(move.id);
 }
 if(this.formatType==='metronome')moves=['metronome'];
 if(isSTABmons){
-for(var _id13 in BattleMovedex){
+for(var _id14 in BattleMovedex){
 var types=[];
 var baseSpecies=dex.getSpecies(species.changesFrom||species.name);
 if(!species.battleOnly)types.push.apply(types,species.types);
@@ -1568,12 +1581,12 @@ var forme=dex.getSpecies(formeName);
 if(!forme.battleOnly&&!excludedForme(forme))types.push.apply(types,forme.types);
 }
 }
-var _move=Dex.getMove(_id13);
+var _move=Dex.getMove(_id14);
 if(!types.includes(_move.type))continue;
 if(moves.includes(_move.id))continue;
 if(_move.gen>dex.gen)continue;
 if(_move.isZ||_move.isMax||_move.isNonstandard)continue;
-moves.push(_id13);
+moves.push(_id14);
 }
 }
 
@@ -1582,26 +1595,26 @@ sketchMoves.sort();
 
 var usableMoves=[];
 var uselessMoves=[];for(var _i11=0,_moves=
-moves;_i11<_moves.length;_i11++){var _id14=_moves[_i11];
-var isUsable=this.moveIsNotUseless(_id14,species,abilityid,itemid,moves);
+moves;_i11<_moves.length;_i11++){var _id15=_moves[_i11];
+var isUsable=this.moveIsNotUseless(_id15,species,abilityid,itemid,moves);
 if(isUsable){
 if(!usableMoves.length)usableMoves.push(['header',"Moves"]);
-usableMoves.push(['move',_id14]);
+usableMoves.push(['move',_id15]);
 }else{
 if(!uselessMoves.length)uselessMoves.push(['header',"Usually useless moves"]);
-uselessMoves.push(['move',_id14]);
+uselessMoves.push(['move',_id15]);
 }
 }
 if(sketchMoves.length){
 usableMoves.push(['header',"Sketched moves"]);
 uselessMoves.push(['header',"Useless sketched moves"]);
 }for(var _i12=0;_i12<
-sketchMoves.length;_i12++){var _id15=sketchMoves[_i12];
-var _isUsable=this.moveIsNotUseless(_id15,species,abilityid,itemid,sketchMoves);
+sketchMoves.length;_i12++){var _id16=sketchMoves[_i12];
+var _isUsable=this.moveIsNotUseless(_id16,species,abilityid,itemid,sketchMoves);
 if(_isUsable){
-usableMoves.push(['move',_id15]);
+usableMoves.push(['move',_id16]);
 }else{
-uselessMoves.push(['move',_id15]);
+uselessMoves.push(['move',_id16]);
 }
 }
 return[].concat(usableMoves,uselessMoves);
@@ -1705,8 +1718,8 @@ return Object.assign({},BattleTeambuilderTable[this.mod].overrideTypeChart,windo
 };_proto8.
 getDefaultResults=function getDefaultResults(){
 var results=[];
-for(var _id16 in window.BattleTypeChart){
-results.push(['type',_id16]);
+for(var _id17 in window.BattleTypeChart){
+results.push(['type',_id17]);
 }
 return results;
 };_proto8.
