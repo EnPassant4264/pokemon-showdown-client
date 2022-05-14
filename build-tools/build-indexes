@@ -219,7 +219,7 @@ function requireNoCache(pathSpec) {
 
 	const infoTable = {Pokedex: 'pokemon', Moves: 'move', Items: 'item', Abilities: 'ability', TypeChart: 'type'};
 	for (const modid in ModConfig) {
-		if (modid != 'sylvemonstest' && modid != 'perfectgalar' && modid != 'megarevolution' && modid != 'pkmnybv2' && modid != 'feuu') continue;
+		if (!(['sylvemonstest', 'perfectgalar', 'megarevolution', 'pkmnybv2', 'feuu'].includes(modid))) continue;
 		for (const key in infoTable) {
 			const modDex = Dex.mod(modid);
 			for (let id in modDex.data[key]) {
@@ -1483,13 +1483,13 @@ process.stdout.write("Building `data/pokedex.js`... ");
 						if(!modDex[linkID]){ //A unique entry for this Mon won't be made, so we have to make one so it can link to the family
 							const linkEntry = JSON.parse(JSON.stringify(Pokedex[linkID])); //Deep copy
 							linkEntry.name += "~" + modName;
-							if(linkEntry.prevo) linkEntry.prevo += "~" + modName;
-							if(linkEntry.evos) linkEntry.evos.forEach((evo) -> {evo += "~" + modName;});
-							if(linkEntry.baseSpecies) linkEntry.baseSpecies += "~" + modName;
+							if(linkEntry.prevo && Pokedex[toID(linkEntry.prevo)]) linkEntry.prevo += "~" + modName;
+							if(linkEntry.evos) linkEntry.evos.forEach((evo) -> {if(Pokedex[toID(evo)]) evo += "~" + modName;});
+							if(linkEntry.baseSpecies && Pokedex[toID(linkEntry.baseSpecies)]) linkEntry.baseSpecies += "~" + modName;
 							if(linkEntry.otherFormes){
-								linkEntry.otherFormes.forEach((forme) -> {forme += "~" + modName;});
+								linkEntry.otherFormes.forEach((forme) -> {if(Pokedex[toID(forme)]) forme += "~" + modName;});
 								linkEntry.formeOrder.forEach((forme) -> {
-								if(linkEntry.otherFormes.includes(forme)) forme += "~" + modName;
+								if(Pokedex[toID(forme)] && linkEntry.otherFormes.includes(forme)) forme += "~" + modName;
 								});
 							}
 							if(modFormats[linkID]){ //Link up formats and learnsets while we're here

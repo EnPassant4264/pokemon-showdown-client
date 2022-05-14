@@ -47,6 +47,7 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 
 		let tagStart = (pokemon.forme ? pokemon.name.length - pokemon.forme.length - 1 : 0);
 
+		const sprID = (pokemon.name.indexOf("~") > 0) ? toID(pokemon.name.slice(0, pokemon.name.indexOf("~"))) : pokemon.id; //sprite ID
 		const stats = pokemon.baseStats;
 		let bst = 0;
 		for (const stat of Object.values(stats)) bst += stat;
@@ -57,7 +58,7 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 				<span class="col numcol">{search.getTier(pokemon)}</span>
 
 				<span class="col iconcol">
-					<span style={Dex.getPokemonIcon(pokemon.id)}></span>
+					<span style={Dex.getPokemonIcon(sprID)}></span>
 				</span>
 
 				<span class="col pokemonnamecol">{this.renderName(pokemon.name, matchStart, matchEnd, tagStart)}</span>
@@ -70,7 +71,7 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 			<span class="col numcol">{search.getTier(pokemon)}</span>
 
 			<span class="col iconcol">
-				<span style={Dex.getPokemonIcon(pokemon.id)}></span>
+				<span style={Dex.getPokemonIcon(sprID)}></span>
 			</span>
 
 			<span class="col pokemonnamecol">{this.renderName(pokemon.name, matchStart, matchEnd, tagStart)}</span>

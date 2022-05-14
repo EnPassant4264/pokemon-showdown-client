@@ -1360,7 +1360,8 @@ class Species implements Effect {
 		this.forme = data.forme || '';
 		const baseId = toID(this.baseSpecies);
 		this.formeid = (baseId === this.id ? '' : '-' + toID(this.forme));
-		this.spriteid = baseId + this.formeid;
+		if(this.baseSpecies.indexOf("~") > 0) this.spriteid = toID(this.baseSpecies.slice(0,this.baseSpecies.indexOf("~"))) + this.formeid;
+		else this.spriteid = baseId + this.formeid;
 		if (this.spriteid.slice(-5) === 'totem') this.spriteid = this.spriteid.slice(0, -5);
 		if (this.spriteid.slice(-1) === '-') this.spriteid = this.spriteid.slice(0, -1);
 		this.baseForme = data.baseForme || '';

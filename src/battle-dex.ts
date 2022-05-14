@@ -726,6 +726,8 @@ const Dex = new class implements ModdedDex {
 		let id = toID(pokemon);
 		if (!pokemon || typeof pokemon === 'string') pokemon = null;
 		// @ts-ignore
+		if (pokemon?.name.indexOf("~") > 0) id = toID(pokemon.name.slice(0, pokemon.name.indexOf("~")));
+		// @ts-ignore
 		if (pokemon?.speciesForme) id = toID(pokemon.speciesForme);
 		// @ts-ignore
 		if (pokemon?.species) id = toID(pokemon.species);
